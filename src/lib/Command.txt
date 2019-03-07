@@ -1,0 +1,61 @@
+//package lib;
+//
+//import lib.net.Server;
+//
+//import java.io.Serializable;
+//
+//public class lib.Command implements Serializable {
+//
+//    private static Server server;
+//
+//    public static final lib.Command BROADCAST_CLIENT_THREADS = new lib.Command("BroadcastClientThreads", () -> {
+//
+//    });
+//    public static final lib.Command GET_CLIENT_THREADS = new lib.Command("GetClientThreads", () -> {
+//
+//    });
+//
+//    public static final lib.Command BROADCAST_HI = new lib.Command("BroadcastHi", () -> System.out.println("Hi"));
+//
+//    public static final lib.Command[] ALL_COMMANDS = {GET_CLIENT_THREADS};
+//
+//    private String actionName;
+//    private Runnable runnable;
+//    private boolean forServer;
+//
+//    public lib.Command(String commandType, Runnable runnable) {
+//        this.actionName = commandType;
+//        this.runnable = runnable;
+//    }
+//
+//    public String getActionName() {
+//        return actionName;
+//    }
+//
+//    public Runnable getRunnable() {
+//        return runnable;
+//    }
+//
+//    public void setRunnable(Runnable runnable) {
+//        this.runnable = runnable;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return actionName;
+//    }
+//
+//    public static void setServer(Server server) {
+//        lib.Command.server = server;
+//    }
+//
+//    public boolean isForServer() {
+//        return forServer;
+//    }
+//
+//    public void setForServer(boolean forServer) {
+//        this.forServer = forServer;
+//    }
+//
+//
+//}
