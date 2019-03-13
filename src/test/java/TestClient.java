@@ -1,5 +1,3 @@
-package app;
-
 import lib.net.Client;
 
 import java.util.Scanner;

@@ -1,5 +1,3 @@
-package app;
-
 import lib.net.Server;
 
 public class TestServer extends Server {
