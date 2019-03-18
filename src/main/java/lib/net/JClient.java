@@ -12,9 +12,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /*
- * The Client that can be run both as a console or a GUI
+ * The JClient that can be run both as a console or a GUI
  */
-public abstract class Client {
+public abstract class JClient {
 
     // for I/O
     private ObjectInputStream sInput;		// to read from the socket
@@ -29,7 +29,7 @@ public abstract class Client {
     private int port;
 
 
-    public Client(String server_ip, int port, String username) {
+    public JClient(String server_ip, int port, String username) {
         this.server = server_ip;
         this.port = port;
         this.username = username;
@@ -164,13 +164,9 @@ public abstract class Client {
         }
     }
 
-    public String sendToAllDisplayFormat(String message, String sender) {
-        return sender + ": " + message;
-    }
+    public abstract String sendToAllDisplayFormat(String message, String sender);
 
-    public String sendToSpecificClientsFormat(String message, String sender, List<String> recipients) {
-        return sender + " --> " + recipients + ": " + message;
-    }
+    public abstract String sendToSpecificClientsFormat(String message, String sender, List<String> recipients);
 
 
     /*

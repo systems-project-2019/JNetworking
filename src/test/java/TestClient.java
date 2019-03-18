@@ -1,8 +1,9 @@
-import lib.net.Client;
+import lib.net.JClient;
 
+import java.util.List;
 import java.util.Scanner;
 
-public class TestClient extends Client {
+public class TestClient extends JClient {
     public TestClient(String server_ip, int port, String username) {
         super(server_ip, port, username);
     }
@@ -20,5 +21,20 @@ public class TestClient extends Client {
     @Override
     public void display(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public String sendToAllDisplayFormat(String message, String sender) {
+        return message;
+    }
+
+    @Override
+    public String sendToSpecificClientsFormat(String message, String sender, List<String> recipients) {
+        if (recipients.contains(getUsername())) {
+            recipients.remove(getUsername());
+            recipients.add("You");
+        }
+
+        return "Server: " + "--> " + recipients + ": " + message;
     }
 }

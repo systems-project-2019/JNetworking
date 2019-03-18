@@ -1,7 +1,5 @@
 package lib;
 
-import lib.net.Client;
-
 import java.io.Serializable;
 import java.util.LinkedList;
 

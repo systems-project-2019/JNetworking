@@ -18,10 +18,10 @@ import java.util.*;
 /*
  * The server that can be run both as a console application or a GUI
  */
-public abstract class Server {
+public abstract class JServer {
     // a unique ID for each connection
     private int uniqueId;
-    // an ArrayList to keep the list of the Client
+    // an ArrayList to keep the list of the JClient
     private static ArrayList<ClientThread> clientThreads;
     // if I am in a GUI
     //private ServerGUI sg;
@@ -34,7 +34,7 @@ public abstract class Server {
 
     public static String displayConnected;
 
-    //private static LinkedList<Client> clients = new LinkedList<>();
+    //private static LinkedList<JClient> clients = new LinkedList<>();
 
     //private Interpreter interpreter = new Interpreter(this);
 
@@ -43,18 +43,18 @@ public abstract class Server {
      *  server constructor that receive the port to listen to for connection as parameter
      *  in console
      */
-//    public Server(int port) {
+//    public JServer(int port) {
 //        this(port, null);
 //    }
 
-    public Server(int port) {
+    public JServer(int port) {
         // GUI or not
         //this.sg = sg;
         // the port
         this.port = port;
         // to display hh:mm:ss
         sdf = new SimpleDateFormat("HH:mm:ss");
-        // ArrayList for the Client list
+        // ArrayList for the JClient list
         clientThreads = new ArrayList<>();
         //lib.Command.setServer(this);
     }
@@ -63,7 +63,7 @@ public abstract class Server {
 //        int portNumber = 1500;
 //
 //        // create a server object and connect it
-//        Server server = new Server(portNumber);
+//        JServer server = new JServer(portNumber);
 //        server.connect();
 //    }
 
@@ -134,7 +134,7 @@ public abstract class Server {
 //     */
 //    protected void stop() {
 //        keepGoing = false;
-//        // connect to myself as Client to exit statement
+//        // connect to myself as JClient to exit statement
 //        // Socket socket = serverSocket.accept();
 //        try {
 //            new Socket("localhost", port);
@@ -151,17 +151,6 @@ public abstract class Server {
      *  to broadcast a message to all Clients
      */
     public synchronized void broadcast(Data data) {
-        // add HH:mm:ss and \n to the message
-//        String time = sdf.format(new Date());
-//        String messageLf = time + " " + message + "\n";
-//        // display message on console or GUI
-//        //if(sg == null)
-//        System.out.print(messageLf);
-//        else
-//            sg.appendRoom(messageLf);     // append in the room window
-
-        // we loop in reverse order in case we would have to remove a Client
-        // because it has disconnected
         display(data.getSender() + ": " + data.getMessage());
         writeToClients(data);
     }
@@ -185,20 +174,16 @@ public abstract class Server {
         }
 
         if (recipientConnected) {
-            sendTo.writeMsg(new Data(serverMessageFormat(message, recipients), Data.FROM_SERVER));
+            Data toSend = new Data(message, Data.FROM_SERVER);
+            toSend.setRecipients(recipients);
+            sendTo.write(toSend);
             display(sentToFormat(message, recipients));
         }
         else
             throw new ClientNotFoundException();
     }
 
-    public String sentToFormat(String message, List<String> recipients) {
-        return "Sent to: " + recipients.toString() + ": " + message;
-    }
-
-    public String serverMessageFormat(String message, List<String> recipients) {
-        return "Server: " + "--> " + recipients + ": " + message;
-    }
+    public abstract String sentToFormat(String message, List<String> recipients);
 
 //    public synchronized void broadcastCommand(lib.Command command) {
 //        // add HH:mm:ss and \n to the message
@@ -210,7 +195,7 @@ public abstract class Server {
 ////        else
 ////            sg.appendRoom(messageLf);     // append in the room window
 //
-//        // we loop in reverse order in case we would have to remove a Client
+//        // we loop in reverse order in case we would have to remove a JClient
 //        // because it has disconnected
 //        display(command.toString());
 //        checkForDisconnectedClients(command.getActionName());
@@ -219,8 +204,8 @@ public abstract class Server {
     private synchronized void writeToClients(Data data) {
         for(int i = clientThreads.size(); --i >= 0;) {
             ClientThread ct = clientThreads.get(i);
-            // try to write to the Client if it fails remove it from the list
-            if(!ct.writeMsg(data)) {
+            // try to write to the JClient if it fails remove it from the list
+            if(!ct.write(data)) {
                 clientThreads.remove(i);
                 display("Disconnected Client " + ct.username + " removed from list.");
             }
@@ -250,12 +235,12 @@ public abstract class Server {
         }
     }
 
-//    public static LinkedList<Client> getClients() {
+//    public static LinkedList<JClient> getClients() {
 //        return clients;
 //    }
 //
-//    public static void setClients(LinkedList<Client> clients) {
-//        Server.clients = clients;
+//    public static void setClients(LinkedList<JClient> clients) {
+//        JServer.clients = clients;
 //    }
 
     public static ArrayList<ClientThread> getClientThreads() {
@@ -264,8 +249,8 @@ public abstract class Server {
 
     /*
      *  To run as a console application just open a console window and:
-     * > java Server
-     * > java Server portNumber
+     * > java JServer
+     * > java JServer portNumber
      * If the port number is not specified 1500 is used
      */
 //    public static void main(String[] args) {
@@ -278,18 +263,18 @@ public abstract class Server {
 //                }
 //                catch(Exception e) {
 //                    System.out.println("Invalid port number.");
-//                    System.out.println("Usage is: > java Server [portNumber]");
+//                    System.out.println("Usage is: > java JServer [portNumber]");
 //                    return;
 //                }
 //            case 0:
 //                break;
 //            default:
-//                System.out.println("Usage is: > java Server [portNumber]");
+//                System.out.println("Usage is: > java JServer [portNumber]");
 //                return;
 //
 //        }
 //        // create a server object and connect it
-//        Server server = new Server(portNumber);
+//        JServer server = new JServer(portNumber);
 //        server.connect();
 //    }
 
@@ -301,7 +286,7 @@ public abstract class Server {
         private ObjectOutputStream sOutput;
         // my unique id (easier for deconnection)
         int id;
-        // the Username of the Client
+        // the Username of the JClient
         String username;
         // the only type of message a will receive
         Data data;
@@ -400,10 +385,10 @@ public abstract class Server {
         }
 
         /*
-         * Write a Data message to the Client output stream for either all clients or one client
+         * Write a Data message to the JClient output stream for either all clients or one client
          */
-        private boolean writeMsg(Data msg) {
-            // if Client is still connected send the message to it
+        private boolean write(Data msg) {
+            // if JClient is still connected send the message to it
             if(!socket.isConnected()) {
                 close();
                 return false;
@@ -444,7 +429,7 @@ public abstract class Server {
 
         if (command.equals(Command.getPlayers)) {
             String allPlayers = "All Players: ";
-//            for (Client c : clients) {
+//            for (JClient c : clients) {
 //                allPlayers += c.getUsername() + " ";
 //            }
 
