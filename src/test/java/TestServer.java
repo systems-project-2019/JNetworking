@@ -1,6 +1,8 @@
-import lib.net.Server;
+import lib.net.JServer;
 
-public class TestServer extends Server {
+import java.util.List;
+
+public class TestServer extends JServer {
 
     public static void main(String[] args) {
         TestServer testServer = new TestServer(1500);
@@ -14,6 +16,11 @@ public class TestServer extends Server {
     @Override
     public void display(String msg) {
         System.out.println(msg);
+    }
+
+    @Override
+    public String sentToFormat(String message, List<String> recipients) {
+        return "Sent to --> " + recipients.toString() + ": " + message;
     }
 
 }
