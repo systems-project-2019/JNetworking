@@ -8,9 +8,8 @@ public class Command<E> implements Serializable {
     private String name;
     private E data;
 
-    public static Command getConnectedClients = new Command<>("getConnectedClients");
-    //public static Command<LinkedList<String>> sendTo = new Command<>("sendTo");
-    public static final Command[] ALL_COMMANDS = {getConnectedClients};
+    public static final Command GET_CONNECTED_CLIENTS = new Command<>("getConnectedClients");
+    public static final Command<LinkedList<String>> SEND_TO = new Command<>("sendTo");
 
 
     public Command() {
@@ -33,12 +32,17 @@ public class Command<E> implements Serializable {
     }
 
     private static boolean commandExists(String c) {
-        for (Command command : ALL_COMMANDS) {
+        for (Command command : getAllCommands()) {
             if (command.getName().equalsIgnoreCase(c))
                 return true;
         }
 
         return false;
+    }
+
+    public static Command[] getAllCommands() {
+        //Command[] allCommands = new Command[]
+        return null;
     }
 
     public String getName() {

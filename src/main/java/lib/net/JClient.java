@@ -153,7 +153,7 @@ public abstract class JClient {
     }
 
     public void getUsers() {
-        requestCommand(Command.getConnectedClients);
+        requestCommand(Command.GET_CONNECTED_CLIENTS);
     }
 
     public void requestCommand(Command command) {

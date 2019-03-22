@@ -27,8 +27,6 @@ public abstract class JServer {
     // the boolean that will be turned of to stop the server
     private boolean keepGoing;
 
-    private Command sendTo = new Command("sendTo");
-
     public JServer(int port) {
         this.port = port;
         sdf = new SimpleDateFormat("HH:mm:ss");
@@ -394,15 +392,10 @@ public abstract class JServer {
         LinkedList<String> sender = new LinkedList<>();
         sender.add(sentFrom);
 
-        if (command.equals(Command.getConnectedClients)) {
-            String allPlayers = "All Players: ";
-//            for (JClient c : clients) {
-//                allPlayers += c.getUsername() + " ";
-//            }
-
+        if (command.equals(Command.GET_CONNECTED_CLIENTS)) {
             Data toSend = new Data(clientThreads.toString());
             sendToSpecificClients(toSend, sender);
-        } else if (command.equals(sendTo)) {
+        } else if (command.equals(Command.SEND_TO)) {
             String recipientsAndMessage = (String) command.getData();
             try {
                 String toReceive = recipientsAndMessage.substring(0, recipientsAndMessage.indexOf(" "));
@@ -416,7 +409,7 @@ public abstract class JServer {
                 sendToSpecificClients(msgToSend, recipientsList);
 
             } catch (Exception e) {
-                String errorMsg = "Send Failed. Use the format /sendTo [player,player,...] [message]";
+                String errorMsg = "Send Failed. Use the format /SEND_TO [player,player,...] [message]";
                 Data errorMsgToSend = new Data(errorMsg);
                 sendToSpecificClients(errorMsgToSend, sender);
                 e.printStackTrace();

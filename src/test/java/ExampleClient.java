@@ -17,10 +17,10 @@ public class ExampleClient extends JClient {
 
 //        while (true) {
 //            String input = sc.nextLine();
-//            if (input.equalsIgnoreCase("/getConnectedClients")) {
+//            if (input.equalsIgnoreCase("/GET_CONNECTED_CLIENTS")) {
 //                exampleClient.broadcast(input);
 //            } else {
-//                exampleClient.requestCommand(Command.getConnectedClients);
+//                exampleClient.requestCommand(Command.GET_CONNECTED_CLIENTS);
 //            }
 //        }
         sc.next();
