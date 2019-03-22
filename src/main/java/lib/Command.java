@@ -8,9 +8,9 @@ public class Command<E> implements Serializable {
     private String name;
     private E data;
 
-    public static Command getPlayers = new Command<>("/getUsers");
-    public static Command<LinkedList<String>> sendTo = new Command<>("sendTo");
-    public static final Command[] ALL_COMMANDS = {getPlayers, sendTo};
+    public static Command getConnectedClients = new Command<>("getConnectedClients");
+    //public static Command<LinkedList<String>> sendTo = new Command<>("sendTo");
+    public static final Command[] ALL_COMMANDS = {getConnectedClients};
 
 
     public Command() {

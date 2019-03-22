@@ -153,10 +153,10 @@ public abstract class JClient {
     }
 
     public void getUsers() {
-        sendCommand(Command.getPlayers);
+        requestCommand(Command.getConnectedClients);
     }
 
-    public void sendCommand(Command command) {
+    public void requestCommand(Command command) {
         try {
             sOutput.writeObject(new Data(command, username));
         } catch (IOException e) {
@@ -183,7 +183,7 @@ public abstract class JClient {
                     //if(cg == null) {
 
                     if (input.getType() == Data.COMMAND) {
-                        //input.getCommand().getRunnable().run();
+                        runCommand(input.getCommand());
                     } else if (input.getType() == Data.MESSAGE) {
                         String msg = input.getMessage();
                         if (!messageIsFromRecipient(input)) {
@@ -194,19 +194,13 @@ public abstract class JClient {
                         }
                     }
 
-                    //}
-//                    else {
-//                        cg.append(msg);
-//                    }
                 }
                 catch(IOException e) {
                     display("Server has closed the connection: " + e);
-//                    if(cg != null)
-//                        cg.connectionFailed();
                     break;
                 }
-                // can't happen with a String object but need the catch anyhow
-                catch(ClassNotFoundException e2) {
+
+                catch(ClassNotFoundException ignored) {
                 }
             }
         }
@@ -225,4 +219,6 @@ public abstract class JClient {
             return input.getSender().equals(username);
         }
     }
+
+    protected abstract void runCommand(Command command);
 }

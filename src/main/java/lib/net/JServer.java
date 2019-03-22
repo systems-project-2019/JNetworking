@@ -15,16 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 
-/*
- * The server that can be run both as a console application or a GUI
- */
 public abstract class JServer {
     // a unique ID for each connection
     private int uniqueId;
     // an ArrayList to keep the list of the JClient
     private static ArrayList<ClientThread> clientThreads;
-    // if I am in a GUI
-    //private ServerGUI sg;
     // to display time
     private SimpleDateFormat sdf;
     // the port number to listen for connection
@@ -32,40 +27,13 @@ public abstract class JServer {
     // the boolean that will be turned of to stop the server
     private boolean keepGoing;
 
-    public static String displayConnected;
-
-    //private static LinkedList<JClient> clients = new LinkedList<>();
-
-    //private Interpreter interpreter = new Interpreter(this);
-
-
-    /*
-     *  server constructor that receive the port to listen to for connection as parameter
-     *  in console
-     */
-//    public JServer(int port) {
-//        this(port, null);
-//    }
+    private Command sendTo = new Command("sendTo");
 
     public JServer(int port) {
-        // GUI or not
-        //this.sg = sg;
-        // the port
         this.port = port;
-        // to display hh:mm:ss
         sdf = new SimpleDateFormat("HH:mm:ss");
-        // ArrayList for the JClient list
         clientThreads = new ArrayList<>();
-        //lib.Command.setServer(this);
     }
-
-//    public void create() {
-//        int portNumber = 1500;
-//
-//        // create a server object and connect it
-//        JServer server = new JServer(portNumber);
-//        server.connect();
-//    }
 
     public void start() {
         keepGoing = true;
@@ -163,7 +131,7 @@ public abstract class JServer {
 //        return allPlayers;
 //    }
 
-    public void sendToSpecificClients(String message, List<String> recipients) throws ClientNotFoundException {
+    public void sendToSpecificClients(Data data, List<String> recipients) throws ClientNotFoundException {
         boolean recipientConnected = false;
         ClientThread sendTo = null;
         for (ClientThread ct : clientThreads) {
@@ -174,10 +142,9 @@ public abstract class JServer {
         }
 
         if (recipientConnected) {
-            Data toSend = new Data(message, Data.FROM_SERVER);
-            toSend.setRecipients(recipients);
-            sendTo.write(toSend);
-            display(sentToFormat(message, recipients));
+            data.setRecipients(recipients);
+            sendTo.write(data);
+            display(sentToFormat(data.toString(), recipients));
         }
         else
             throw new ClientNotFoundException();
@@ -354,7 +321,7 @@ public abstract class JServer {
                     case Data.COMMAND:
                         display(username + ": requested " + data.getCommand().getName());
                         try {
-                            runServerCommand(data.getCommand(), data.getSender());
+                            runCommand(data.getCommand(), data.getSender());
                         } catch (CommandNotFoundException | ClientNotFoundException e) { // client not found message?
                             e.printStackTrace();
                         }
@@ -423,18 +390,19 @@ public abstract class JServer {
         }
     }
 
-    private void runServerCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException {
+    private void runCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException {
         LinkedList<String> sender = new LinkedList<>();
         sender.add(sentFrom);
 
-        if (command.equals(Command.getPlayers)) {
+        if (command.equals(Command.getConnectedClients)) {
             String allPlayers = "All Players: ";
 //            for (JClient c : clients) {
 //                allPlayers += c.getUsername() + " ";
 //            }
 
-            sendToSpecificClients(clientThreads.toString(), sender);
-        } else if (command.equals(Command.sendTo)) {
+            Data toSend = new Data(clientThreads.toString());
+            sendToSpecificClients(toSend, sender);
+        } else if (command.equals(sendTo)) {
             String recipientsAndMessage = (String) command.getData();
             try {
                 String toReceive = recipientsAndMessage.substring(0, recipientsAndMessage.indexOf(" "));
@@ -444,15 +412,20 @@ public abstract class JServer {
 
                 List<String> recipientsList = Arrays.asList(recipients);
 
-                sendToSpecificClients(message, recipientsList);
+                Data msgToSend = new Data(message);
+                sendToSpecificClients(msgToSend, recipientsList);
 
             } catch (Exception e) {
-                sendToSpecificClients("Send Failed. Use the format /sendTo [player,player,...] [message]", sender);
+                String errorMsg = "Send Failed. Use the format /sendTo [player,player,...] [message]";
+                Data errorMsgToSend = new Data(errorMsg);
+                sendToSpecificClients(errorMsgToSend, sender);
                 e.printStackTrace();
             }
         }
         else {
-            sendToSpecificClients("Command not found.", sender);
+            String errorMsg = "Command not found.";
+            Data errorMsgToSend = new Data(errorMsg);
+            sendToSpecificClients(errorMsgToSend, sender);
             throw new CommandNotFoundException();
         }
     }
