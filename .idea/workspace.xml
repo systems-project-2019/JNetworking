@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="db42875f-75a6-4c95-9c85-8f271149c68e" name="Default" comment="Remove unneeded files">
+    <list default="true" id="db42875f-75a6-4c95-9c85-8f271149c68e" name="Default" comment="Did some spring cleaning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/client.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/img/junta_background.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/juntaMainMenu.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Command.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Library/lib/Command.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Command.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Data.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Library/lib/Data.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/ImageResources.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Interpreter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/fx/Dialog$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/fx/Dialog.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/net/Client$ListenFromServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/net/Client.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/net/Server$ClientThread.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/net/Server.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/server.fxml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lib/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/Data.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TestClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/TestServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/TestServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/Command.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/Command.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ExampleClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ExampleClient.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -35,50 +20,50 @@
     <session id="-1981756364">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="2" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.4" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.open.time.6" value="1" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="9" />
+          <entry key="java" value="11" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="9" />
+          <entry key="JAVA" value="11" />
           <entry key="PLAIN_TEXT" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="dummy" value="2" />
-          <entry key="java" value="144" />
-          <entry key="txt" value="22" />
+          <entry key="dummy" value="24" />
+          <entry key="java" value="851" />
+          <entry key="txt" value="95" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="144" />
-          <entry key="PLAIN_TEXT" value="24" />
+          <entry key="JAVA" value="851" />
+          <entry key="PLAIN_TEXT" value="119" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="119" selection-start-line="119" selection-end-line="119" />
+            <state relative-caret-position="3542">
+              <caret line="218" column="54" lean-forward="true" selection-start-line="218" selection-start-column="54" selection-end-line="218" selection-end-column="54" />
               <folding>
-                <element signature="e#3178#3179#0" expanded="true" />
-                <element signature="e#4244#4245#0" expanded="true" />
-                <element signature="e#4291#4292#0" expanded="true" />
+                <element signature="e#4247#4248#0" expanded="true" />
+                <element signature="e#4294#4295#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -87,8 +72,18 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/Command.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="424">
-              <caret line="42" selection-start-line="42" selection-end-line="42" />
+            <state relative-caret-position="418">
+              <caret line="34" column="50" lean-forward="true" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+              <folding>
+                <element signature="e#1137#1138#0" expanded="true" />
+                <element signature="e#1169#1170#0" expanded="true" />
+                <element signature="e#1320#1321#0" expanded="true" />
+                <element signature="e#1347#1348#0" expanded="true" />
+                <element signature="e#1382#1383#0" expanded="true" />
+                <element signature="e#1414#1415#0" expanded="true" />
+                <element signature="e#1576#1577#0" expanded="true" />
+                <element signature="e#1647#1648#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -96,15 +91,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/Data.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
+            <state relative-caret-position="513">
+              <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
               <folding>
-                <element signature="e#1580#1581#0" expanded="true" />
-                <element signature="e#1613#1614#0" expanded="true" />
-                <element signature="e#1775#1776#0" expanded="true" />
-                <element signature="e#1804#1805#0" expanded="true" />
-                <element signature="e#1840#1841#0" expanded="true" />
-                <element signature="e#1872#1873#0" expanded="true" />
+                <element signature="e#1579#1580#0" expanded="true" />
+                <element signature="e#1612#1613#0" expanded="true" />
                 <element signature="e#1922#1923#0" expanded="true" />
                 <element signature="e#1964#1965#0" expanded="true" />
               </folding>
@@ -112,43 +103,37 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="353">
-              <caret line="178" column="33" lean-forward="true" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+            <state relative-caret-position="-4535">
+              <caret line="134" column="47" lean-forward="true" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/TestServer.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ExampleServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="76">
-              <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+            <state relative-caret-position="399">
+              <caret line="25" column="73" lean-forward="true" selection-start-line="25" selection-start-column="73" selection-end-line="25" selection-end-column="73" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#232#233#0" expanded="true" />
-                <element signature="e#259#260#0" expanded="true" />
-                <element signature="e#312#313#0" expanded="true" />
-                <element signature="e#351#352#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/test/java/TestClient.java">
+        <entry file="file://$PROJECT_DIR$/src/test/java/ExampleClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="627">
+              <caret line="40" column="13" lean-forward="true" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
               <folding>
-                <element signature="e#159#160#0" expanded="true" />
-                <element signature="e#207#208#0" expanded="true" />
-                <element signature="e#566#567#0" expanded="true" />
-                <element signature="e#609#610#0" expanded="true" />
+                <element signature="e#591#592#0" expanded="true" />
+                <element signature="e#634#635#0" expanded="true" />
                 <element signature="e#723#724#0" expanded="true" />
-                <element signature="e#750#751#0" expanded="true" />
+                <element signature="e#753#754#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -203,12 +188,15 @@
         <option value="$PROJECT_DIR$/src/main/java/app/TestServer.java" />
         <option value="$PROJECT_DIR$/src/app/TestClient.java" />
         <option value="$PROJECT_DIR$/src/main/java/lib/net/Server.java" />
-        <option value="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestJServer.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestServer.java" />
         <option value="$PROJECT_DIR$/src/test/java/TestClient.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ExampleServer.java" />
+        <option value="$PROJECT_DIR$/src/test/java/ExampleClient.java" />
+        <option value="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" />
         <option value="$PROJECT_DIR$/src/main/java/lib/Data.java" />
         <option value="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/lib/Command.java" />
       </list>
     </option>
   </component>
@@ -233,7 +221,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -293,10 +280,11 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1552935193074" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553280155650" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -324,25 +312,24 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TestClient">
+  <component name="RunManager" selected="Application.ExampleClient">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestClient" />
+    <configuration name="ExampleClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ExampleClient" />
       <module name="Networking Library" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="TestServer" />
+    <configuration name="ExampleServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ExampleServer" />
       <module name="Networking Library" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -377,13 +364,13 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.TestServer" />
-      <item itemvalue="Application.TestClient" />
+      <item itemvalue="Application.ExampleServer" />
+      <item itemvalue="Application.ExampleClient" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestClient" />
-        <item itemvalue="Application.TestServer" />
+        <item itemvalue="Application.ExampleClient" />
+        <item itemvalue="Application.ExampleServer" />
       </list>
     </recent_temporary>
   </component>
@@ -410,23 +397,37 @@
       <option name="project" value="LOCAL" />
       <updated>1552932133425</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Updated the multiple client system">
+      <created>1552935264025</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1552935264025</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Did some spring cleaning">
+      <created>1553279811536</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1553279811537</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1176" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16897655" />
-      <window_info id="Structure" order="1" weight="0.25" />
-      <window_info id="Image Layers" order="2" />
-      <window_info id="Designer" order="3" />
-      <window_info id="UI Designer" order="4" />
-      <window_info id="Capture Tool" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1705757" />
+      <window_info id="Image Layers" order="1" />
+      <window_info id="Designer" order="2" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Structure" order="6" weight="0.25" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32917467" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3234165" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3234165" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39827254" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -450,22 +451,18 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Remove unneeded files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Remove unneeded files" />
+    <MESSAGE value="Updated the multiple client system" />
+    <MESSAGE value="Did some spring cleaning" />
+    <option name="LAST_COMMIT_MESSAGE" value="Did some spring cleaning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/TestClient.java</url>
-          <line>37</line>
+          <url>file://$PROJECT_DIR$/src/test/java/ExampleClient.java</url>
+          <line>44</line>
           <properties />
           <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java</url>
-          <line>188</line>
-          <properties />
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -503,13 +500,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/fx/Dialog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/fx/Dialog.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/lib/misc/Time.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -517,16 +508,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Command.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Interpreter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-198">
-          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Command.txt" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Interpreter.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/lang/Override.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="513">
@@ -534,75 +517,85 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/TestClient.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_171/src.zip!/java/lang/Object.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        <state relative-caret-position="339">
+          <caret line="234" column="18" selection-start-line="234" selection-start-column="18" selection-end-line="234" selection-end-column="18" />
           <folding>
-            <element signature="e#159#160#0" expanded="true" />
-            <element signature="e#207#208#0" expanded="true" />
-            <element signature="e#566#567#0" expanded="true" />
-            <element signature="e#609#610#0" expanded="true" />
-            <element signature="e#723#724#0" expanded="true" />
-            <element signature="e#750#751#0" expanded="true" />
+            <element signature="e#10065#10066#0" expanded="true" />
+            <element signature="e#10148#10149#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/lib/Data.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
+        <state relative-caret-position="513">
+          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
           <folding>
-            <element signature="e#1580#1581#0" expanded="true" />
-            <element signature="e#1613#1614#0" expanded="true" />
-            <element signature="e#1775#1776#0" expanded="true" />
-            <element signature="e#1804#1805#0" expanded="true" />
-            <element signature="e#1840#1841#0" expanded="true" />
-            <element signature="e#1872#1873#0" expanded="true" />
+            <element signature="e#1579#1580#0" expanded="true" />
+            <element signature="e#1612#1613#0" expanded="true" />
             <element signature="e#1922#1923#0" expanded="true" />
             <element signature="e#1964#1965#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Command.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/ExampleServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="424">
-          <caret line="42" selection-start-line="42" selection-end-line="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="119" selection-start-line="119" selection-end-line="119" />
+        <state relative-caret-position="399">
+          <caret line="25" column="73" lean-forward="true" selection-start-line="25" selection-start-column="73" selection-end-line="25" selection-end-column="73" />
           <folding>
-            <element signature="e#3178#3179#0" expanded="true" />
-            <element signature="e#4244#4245#0" expanded="true" />
-            <element signature="e#4291#4292#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/TestServer.java">
+    <entry file="file://$PROJECT_DIR$/src/test/java/ExampleClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        <state relative-caret-position="627">
+          <caret line="40" column="13" lean-forward="true" selection-start-line="40" selection-start-column="13" selection-end-line="40" selection-end-column="13" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#232#233#0" expanded="true" />
-            <element signature="e#259#260#0" expanded="true" />
-            <element signature="e#312#313#0" expanded="true" />
-            <element signature="e#351#352#0" expanded="true" />
+            <element signature="e#591#592#0" expanded="true" />
+            <element signature="e#634#635#0" expanded="true" />
+            <element signature="e#723#724#0" expanded="true" />
+            <element signature="e#753#754#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="353">
-          <caret line="178" column="33" lean-forward="true" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+        <state relative-caret-position="-4535">
+          <caret line="134" column="47" lean-forward="true" selection-start-line="134" selection-start-column="47" selection-end-line="134" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/Command.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="34" column="50" lean-forward="true" selection-start-line="34" selection-start-column="50" selection-end-line="34" selection-end-column="50" />
+          <folding>
+            <element signature="e#1137#1138#0" expanded="true" />
+            <element signature="e#1169#1170#0" expanded="true" />
+            <element signature="e#1320#1321#0" expanded="true" />
+            <element signature="e#1347#1348#0" expanded="true" />
+            <element signature="e#1382#1383#0" expanded="true" />
+            <element signature="e#1414#1415#0" expanded="true" />
+            <element signature="e#1576#1577#0" expanded="true" />
+            <element signature="e#1647#1648#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3542">
+          <caret line="218" column="54" lean-forward="true" selection-start-line="218" selection-start-column="54" selection-end-line="218" selection-end-column="54" />
+          <folding>
+            <element signature="e#4247#4248#0" expanded="true" />
+            <element signature="e#4294#4295#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -1,15 +1,19 @@
 import lib.net.JServer;
 
 import java.util.List;
+import java.util.Scanner;
 
-public class TestServer extends JServer {
+public class ExampleServer extends JServer {
 
     public static void main(String[] args) {
-        TestServer testServer = new TestServer(1500);
-        testServer.start();
+        ExampleServer exampleServer = new ExampleServer(1500);
+        exampleServer.start();
+        Scanner sc = new Scanner(System.in);
+        sc.next();
+
     }
 
-    public TestServer(int port) {
+    public ExampleServer(int port) {
         super(port);
     }
 

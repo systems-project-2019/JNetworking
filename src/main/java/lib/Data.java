@@ -43,7 +43,7 @@ public class Data implements Serializable {
     public Data(String message) { // for server sender
         this.type = 1;
         this.message = message;
-        this.sender = null; //(server)
+        this.sender = FROM_SERVER; //(server)
     }
 
 
@@ -78,5 +78,15 @@ public class Data implements Serializable {
 
     public void setSendToAll(boolean sendToAll) {
         this.sendToAll = sendToAll;
+    }
+
+    @Override
+    public String toString() {
+        if (type == COMMAND) {
+            return command.getName();
+        }
+        else {
+            return message;
+        }
     }
 }
