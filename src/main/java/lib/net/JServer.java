@@ -395,25 +395,6 @@ public abstract class JServer {
         if (command.equals(Command.GET_CONNECTED_CLIENTS)) {
             Data toSend = new Data(clientThreads.toString());
             sendToSpecificClients(toSend, sender);
-        } else if (command.equals(Command.SEND_TO)) {
-            String recipientsAndMessage = (String) command.getData();
-            try {
-                String toReceive = recipientsAndMessage.substring(0, recipientsAndMessage.indexOf(" "));
-                String message = recipientsAndMessage.substring(recipientsAndMessage.indexOf(" ") + 1);
-
-                String[] recipients = toReceive.trim().split(",");
-
-                List<String> recipientsList = Arrays.asList(recipients);
-
-                Data msgToSend = new Data(message);
-                sendToSpecificClients(msgToSend, recipientsList);
-
-            } catch (Exception e) {
-                String errorMsg = "Send Failed. Use the format /SEND_TO [player,player,...] [message]";
-                Data errorMsgToSend = new Data(errorMsg);
-                sendToSpecificClients(errorMsgToSend, sender);
-                e.printStackTrace();
-            }
         } else if (existsCustomCommand(command)) {
             runCustomCommand(command, sentFrom);
         }

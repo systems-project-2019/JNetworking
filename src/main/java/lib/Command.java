@@ -10,7 +10,6 @@ public class Command<E> implements Serializable {
     private E data;
 
     public static final Command GET_CONNECTED_CLIENTS = new Command<>("getConnectedClients");
-    public static final Command<LinkedList<String>> SEND_TO = new Command<>("sendTo");
 
     private static List<Command> allCommands = new LinkedList<>();
 
