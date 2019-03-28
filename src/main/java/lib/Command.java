@@ -2,6 +2,7 @@ package lib;
 
 import java.io.Serializable;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Command<E> implements Serializable {
 
@@ -11,6 +12,7 @@ public class Command<E> implements Serializable {
     public static final Command GET_CONNECTED_CLIENTS = new Command<>("getConnectedClients");
     public static final Command<LinkedList<String>> SEND_TO = new Command<>("sendTo");
 
+    private static List<Command> allCommands = new LinkedList<>();
 
     public Command() {
 
@@ -32,6 +34,7 @@ public class Command<E> implements Serializable {
     }
 
     private static boolean commandExists(String c) {
+        assert getAllCommands() != null;
         for (Command command : getAllCommands()) {
             if (command.getName().equalsIgnoreCase(c))
                 return true;
@@ -40,9 +43,16 @@ public class Command<E> implements Serializable {
         return false;
     }
 
-    public static Command[] getAllCommands() {
-        //Command[] allCommands = new Command[]
-        return null;
+    public static List<Command> getAllCommands() {
+        return allCommands;
+    }
+
+    public static void setAllCommands(List<Command> allCommands) {
+        Command.allCommands = allCommands;
+    }
+
+    public static void addCommand(Command command) {
+        allCommands.add(command);
     }
 
     public String getName() {

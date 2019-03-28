@@ -1,3 +1,5 @@
+import lib.Command;
+import lib.Data;
 import lib.net.JServer;
 
 import java.util.List;
@@ -5,7 +7,11 @@ import java.util.Scanner;
 
 public class ExampleServer extends JServer {
 
+    public static final Command WAZA_COMMAND = new Command("waza");
+
     public static void main(String[] args) {
+        Command.addCommand(WAZA_COMMAND);
+
         ExampleServer exampleServer = new ExampleServer(1500);
         exampleServer.start();
         Scanner sc = new Scanner(System.in);
@@ -25,6 +31,13 @@ public class ExampleServer extends JServer {
     @Override
     public String sentToFormat(String message, List<String> recipients) {
         return "Sent to --> " + recipients.toString() + ": " + message;
+    }
+
+    @Override
+    protected void runCustomCommand(Command command, String sentFrom) {
+        if (command.equals(new Command("waza"))) {
+            broadcast(new Data("WAZA"));
+        }
     }
 
 }

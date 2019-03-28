@@ -24,7 +24,7 @@ public class ExampleClient extends JClient {
 //            }
 //        }
         sc.next();
-        exampleClient.getUsers();
+        exampleClient.requestCommand(ExampleServer.WAZA_COMMAND);
 
     }
 

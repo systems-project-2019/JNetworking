@@ -414,14 +414,27 @@ public abstract class JServer {
                 sendToSpecificClients(errorMsgToSend, sender);
                 e.printStackTrace();
             }
+        } else if (existsCustomCommand(command)) {
+            runCustomCommand(command, sentFrom);
         }
         else {
-            String errorMsg = "Command not found.";
+            String errorMsg = "Command " + command.getName() + " not found.";
             Data errorMsgToSend = new Data(errorMsg);
             sendToSpecificClients(errorMsgToSend, sender);
-            throw new CommandNotFoundException();
+            throw new CommandNotFoundException(command.getName());
         }
     }
+
+    private boolean existsCustomCommand(Command command) {
+        for (Command c : Command.getAllCommands()) {
+            if (c.equals(command)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected abstract void runCustomCommand(Command command, String sentFrom);
 
 }
 
