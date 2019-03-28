@@ -25,6 +25,7 @@ public class ExampleClient extends JClient {
 //        }
         sc.next();
         exampleClient.requestCommand(Commands.WAZA_COMMAND);
+        exampleClient.broadcast("Successful");
 
     }
 
@@ -35,7 +36,7 @@ public class ExampleClient extends JClient {
 
     @Override
     public String sendToAllDisplayFormat(String message, String sender) {
-        return message;
+        return sender + ": " + message;
     }
 
     @Override
