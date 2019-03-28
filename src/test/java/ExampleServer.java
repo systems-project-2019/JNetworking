@@ -7,10 +7,8 @@ import java.util.Scanner;
 
 public class ExampleServer extends JServer {
 
-    public static final Command WAZA_COMMAND = new Command("waza");
-
     public static void main(String[] args) {
-        Command.addCommand(WAZA_COMMAND);
+        Command.addCommand(Commands.WAZA_COMMAND);
 
         ExampleServer exampleServer = new ExampleServer(1500);
         exampleServer.start();
