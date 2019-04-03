@@ -304,14 +304,14 @@ public abstract class JServer {
                     break;
                 }
                 // the messaage part of the Data
-                String message = data.getMessage();
+                //String message = data.getMessage();
 
                 // Switch on the type of message receive
                 switch(data.getType()) {
 
-                    case Data.MESSAGE:
-                        broadcast(data);
-                        break;
+//                    case Data.MESSAGE:
+//                        broadcast(data);
+//                        break;
 //                    case Data.LOGOUT:
 //                        display(username + " disconnected with a LOGOUT message.");
 //                        keepGoing = false;
@@ -324,6 +324,11 @@ public abstract class JServer {
                             e.printStackTrace();
                         }
                         break;
+
+                        case Data.OBJECT:
+                            broadcast(data);
+                            break;
+
                 }
             }
             // remove myself from the arrayList containing the list of the
