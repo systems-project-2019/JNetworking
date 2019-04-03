@@ -117,7 +117,7 @@ public abstract class JServer {
      *  to broadcast a message to all Clients
      */
     public synchronized void broadcast(Data data) {
-        display(data.getSender() + ": " + data.getMessage());
+        display(data.getSender() + ": " + data.toString());
         writeToClients(data);
     }
 

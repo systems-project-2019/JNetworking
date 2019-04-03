@@ -1,5 +1,8 @@
 package lib;
 
+import lib.misc.Interpreter;
+
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -16,7 +19,7 @@ public class Data implements Serializable {
     // The different types of message sent by the JClient
     // COMMAND to execute a command on the server
     // MESSAGE a message to be displayed to the chat
-    public static final int COMMAND = 0, MESSAGE = 1;
+    public static final int COMMAND = 0, MESSAGE = 1, OBJECT = 2;
     public static final String FROM_SERVER = "Server";
 
     private int type;
@@ -24,6 +27,7 @@ public class Data implements Serializable {
     private String message;
     private Command command;
     private String sender;
+    private byte[] object;
 
     private List<String> recipients;
     private boolean sendToAll = true;
@@ -38,6 +42,12 @@ public class Data implements Serializable {
         this.type = 1;
         this.message = message;
         this.sender = sender;
+    }
+
+    public Data(Object object) throws IOException {
+        this.type = 2;
+        this.object = Interpreter.toByteArray(object);
+        //this.sender = sender;
     }
 
     public Data(String message) { // for server sender
@@ -78,6 +88,10 @@ public class Data implements Serializable {
 
     public void setSendToAll(boolean sendToAll) {
         this.sendToAll = sendToAll;
+    }
+
+    public Object getObject() throws IOException, ClassNotFoundException {
+        return Interpreter.toObject(object);
     }
 
     @Override

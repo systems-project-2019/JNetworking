@@ -120,10 +120,15 @@ public abstract class JClient {
         return username;
     }
 
-    public void broadcast(String input) throws IOException {
-        sOutput.writeObject(new Data(input, username));
-        display("You: " + input);
+    public void broadcast(String message) throws IOException {
+        sOutput.writeObject(new Data(message, username));
+        display("You: " + message);
     }
+
+//    public void broadcast(Object object) throws IOException {
+//        sOutput.writeObject(new Data(input, username));
+//        display("You: " + input);
+//    }
 
     public void sendTo(String message, String... clients) {
         LinkedList<String> recipients = new LinkedList<>();
@@ -192,6 +197,8 @@ public abstract class JClient {
                             else
                                 display(sendToSpecificClientsFormat(msg, input.getSender(), input.getRecipients()));
                         }
+                    } else if (input.getType() == Data.OBJECT) {
+                        System.out.println(input.getObject());
                     }
 
                 }

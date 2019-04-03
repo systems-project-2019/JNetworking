@@ -2,6 +2,7 @@ import lib.Command;
 import lib.Data;
 import lib.net.JServer;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,6 +15,11 @@ public class ExampleServer extends JServer {
         exampleServer.start();
         Scanner sc = new Scanner(System.in);
         sc.next();
+        try {
+            exampleServer.broadcast(new Data(8, Data.FROM_SERVER));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
