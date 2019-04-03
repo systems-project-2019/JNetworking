@@ -1,4 +1,5 @@
 import lib.Command;
+import lib.Data;
 import lib.net.JClient;
 
 import java.io.IOException;
@@ -14,18 +15,8 @@ public class ExampleClient extends JClient {
         Scanner sc = new Scanner(System.in);
         ExampleClient exampleClient = new ExampleClient("localhost", 1500, sc.next());
         exampleClient.connect();
-
-//        while (true) {
-//            String input = sc.nextLine();
-//            if (input.equalsIgnoreCase("/GET_CONNECTED_CLIENTS")) {
-//                exampleClient.broadcast(input);
-//            } else {
-//                exampleClient.requestCommand(Command.GET_CONNECTED_CLIENTS);
-//            }
-//        }
         sc.next();
-        exampleClient.requestCommand(Commands.WAZA_COMMAND);
-        exampleClient.broadcast("Successful");
+        exampleClient.broadcast(new Data(8));
 
     }
 
