@@ -1,85 +1,85 @@
 package lib.net;
 
-import lib.Command;
-import lib.Data;
+import lib.misc.Command;
+import lib.misc.Data;
 import lib.exceptions.ClientAlreadyExistsException;
 import lib.exceptions.ClientNotFoundException;
 import lib.exceptions.CommandNotFoundException;
+import lib.misc.Time;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-
+/**
+ * @author Josh Hilbert
+ * An abstract server class meant to be extended in a custom server classs
+ * Loosely based on the work of user: pbl on 13 December 2011
+ * https://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/
+ */
 public abstract class JServer {
-    // a unique ID for each connection
-    private int uniqueId;
-    // an ArrayList to keep the list of the JClient
+
     private static ArrayList<ClientThread> clientThreads;
-    // to display time
-    private SimpleDateFormat sdf;
-    // the port number to listen for connection
+    private int uniqueId;
     private int port;
-    // the boolean that will be turned of to stop the server
     private boolean keepGoing;
 
     public JServer(int port) {
         this.port = port;
-        sdf = new SimpleDateFormat("HH:mm:ss");
         clientThreads = new ArrayList<>();
     }
 
+    /**
+     * @return an ArrayList of ClientThread objects (all clients connected to the server)
+     */
+    public static ArrayList<ClientThread> getClientThreads() {
+        return clientThreads;
+    }
+
+    /**
+     * Starts the server
+     */
     public void start() {
         keepGoing = true;
         /* create socket server and wait for connection requests */
-        try
-        {
-            // the socket used by the server
+        try {
             ServerSocket serverSocket = new ServerSocket(port);
 
-            // infinite loop to wait for connections
-            while(keepGoing)
-            {
-                // format message saying we are waiting
+            // Infinite loop to wait for connections
+            while (keepGoing) {
                 display("Server waiting for Clients on port " + port + ".");
 
-                Socket socket = serverSocket.accept();  	// accept connection
-                // if I was asked to stop
-                if(!keepGoing)
+                Socket socket = serverSocket.accept();
+
+                if (!keepGoing)
                     break;
-                ClientThread t = new ClientThread(socket);  // make a thread of it
-                if(clientAlreadyExists(t)) {
+                ClientThread t = new ClientThread(socket);
+                if (clientAlreadyExists(t)) {
                     throw new ClientAlreadyExistsException();
                 }
-                clientThreads.add(t);									// save it in the ArrayList
+                clientThreads.add(t);
                 t.start();
             }
-            // I was asked to stop
+
             try {
                 serverSocket.close();
-                for(int i = 0; i < clientThreads.size(); ++i) {
+                for (int i = 0; i < clientThreads.size(); ++i) {
                     ClientThread tc = clientThreads.get(i);
                     try {
                         tc.sInput.close();
                         tc.sOutput.close();
                         tc.socket.close();
-                    }
-                    catch(IOException ioE) {
-                        // not much I can do
+                    } catch (IOException ignored) {
                     }
                 }
-            }
-            catch(Exception e) {
+            } catch (Exception e) {
                 display("Exception closing the server and clientThreads: " + e);
             }
-        }
-        // something went bad
-        catch (IOException e) {
-            String msg = sdf.format(new Date()) + " Exception on new ServerSocket: " + e + "\n";
+        } catch (IOException e) {
+            String msg = Time.getCurrentTime() + " Exception on new ServerSocket: " + e + "\n";
             display(msg);
         } catch (ClientAlreadyExistsException e) {
             display("The username chosen is already in use: " + e);
@@ -87,55 +87,50 @@ public abstract class JServer {
         }
     }
 
+    /**
+     * Checks if a client is already in the server
+     *
+     * @param t client thread
+     * @return true if client is already in the server
+     */
     private boolean clientAlreadyExists(ClientThread t) {
-        for (ClientThread thread:clientThreads) {
+        for (ClientThread thread : clientThreads) {
             if (thread.getUsername().equals(t.username))
                 return true;
         }
         return false;
     }
 
-    //    /*
-//     * For the GUI to stop the server
-//     */
-//    protected void stop() {
-//        keepGoing = false;
-//        // connect to myself as JClient to exit statement
-//        // Socket socket = serverSocket.accept();
-//        try {
-//            new Socket("localhost", port);
-//        }
-//        catch(Exception e) {
-//            // nothing I can really do
-//        }
-//    }
-    /*
-     * Display an event (not a message) to the console or the GUI
+    /**
+     * Abstract method to display information coming from the server
+     *
+     * @param s String to be displayed
      */
-    public abstract void display(String msg);
+    public abstract void display(String s);
+
     /*
-     *  to broadcast a message to all Clients
+     *  to broadcast a data object to all Clients
      */
-    public synchronized void broadcast(Data data) throws ClientNotFoundException {
+    public synchronized void broadcast(Data data) throws ClientNotFoundException, IOException {
         if (allRecipientsConnectedToServer(data.getRecipients())) {
             if (data.isSendToAll()) {
                 display(data.getSender() + ": " + data.toString());
             } else {
-                display(data.getSender() + ": --> " + data.getRecipients() + ": " + data.toString());
+                display(data.getSender() + " --> " + data.getRecipients() + ": " + data.toString());
             }
+
             writeToClients(data);
         } else
             throw new ClientNotFoundException();
     }
 
-//    private LinkedList<String> sendToAll() {
-//        LinkedList<String> allPlayers = new LinkedList<>();
-//        for (ClientThread ct : clientThreads) {
-//            allPlayers.add(ct.getName());
-//        }
-//        return allPlayers;
-//    }
-
+    /**
+     * Sends a data object to specified clients
+     *
+     * @param data       data object to be sent
+     * @param recipients a list of recipients of the message
+     * @throws ClientNotFoundException if any clients in the recipient list are not connected to the server
+     */
     public void sendToSpecificClients(Data data, List<String> recipients) throws ClientNotFoundException {
         boolean recipientsConnected = false;
         ClientThread sendTo = null;
@@ -150,40 +145,43 @@ public abstract class JServer {
             data.setRecipients(recipients);
             sendTo.write(data);
             display(sentToFormat(data.toString(), recipients));
-        }
-        else
+        } else
             throw new ClientNotFoundException();
     }
 
-    public abstract String sentToFormat(String message, List<String> recipients);
+    /**
+     * How a string will be formatted when it is being sent to multiple clients
+     *
+     * @param message    the string being sent
+     * @param recipients list of all recipients of the string
+     * @return a formatted string
+     */
+    public String sentToFormat(String message, List<String> recipients) {
+        return "Sent to --> " + recipients.toString() + ": " + message;
+    }
 
-//    public synchronized void broadcastCommand(lib.Command command) {
-//        // add HH:mm:ss and \n to the message
-////        String time = sdf.format(new Date());
-////        String messageLf = time + " " + message + "\n";
-////        // display message on console or GUI
-////        //if(sg == null)
-////        System.out.print(messageLf);
-////        else
-////            sg.appendRoom(messageLf);     // append in the room window
-//
-//        // we loop in reverse order in case we would have to remove a JClient
-//        // because it has disconnected
-//        display(command.toString());
-//        checkForDisconnectedClients(command.getActionName());
-//    }
-
+    /**
+     * Helper method to send data to clients
+     *
+     * @param data the data object to be sent
+     */
     private synchronized void writeToClients(Data data) {
-        for(int i = clientThreads.size(); --i >= 0;) {
+        for (int i = clientThreads.size(); --i >= 0; ) {
             ClientThread ct = clientThreads.get(i);
             // try to write to the JClient if it fails remove it from the list
-            if(!ct.write(data)) {
+            if (!ct.write(data)) {
                 clientThreads.remove(i);
                 display("Disconnected Client " + ct.username + " removed from list.");
             }
         }
     }
 
+    /**
+     * Checks if all recipients in a list are connected to the server
+     *
+     * @param recipients a list of recipients
+     * @return true if all recipients are connected to the server
+     */
     private boolean allRecipientsConnectedToServer(List<String> recipients) {
         LinkedList<String> connectedPlayers = new LinkedList<>();
         for (ClientThread player : clientThreads) {
@@ -193,135 +191,120 @@ public abstract class JServer {
         return connectedPlayers.containsAll(recipients);
     }
 
-    // for a client who logoff using the LOGOUT message
+    /**
+     * Remove a client from the server by id
+     *
+     * @param id of client to remove
+     */
     synchronized void remove(int id) {
-        // scan the array list until we found the Id
-        for(int i = 0; i < clientThreads.size(); ++i) {
+        for (int i = 0; i < clientThreads.size(); ++i) {
             ClientThread ct = clientThreads.get(i);
-            // found it
-            if(ct.id == id) {
+            if (ct.id == id) {
                 clientThreads.remove(i);
                 return;
             }
         }
     }
 
-//    public static LinkedList<JClient> getClients() {
-//        return clients;
-//    }
-//
-//    public static void setClients(LinkedList<JClient> clients) {
-//        JServer.clients = clients;
-//    }
+    /**
+     * Runs a command from an incoming request made by a client
+     *
+     * @param command  the command requested by a client
+     * @param sentFrom the client requesting the command
+     * @throws CommandNotFoundException if the command does not exist
+     * @throws ClientNotFoundException  if the client does not exist
+     * @throws IOException
+     */
+    private void runCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException, IOException {
+        LinkedList<String> sender = new LinkedList<>();
+        sender.add(sentFrom);
 
-    public static ArrayList<ClientThread> getClientThreads() {
-        return clientThreads;
+        if (command.equals(Command.CONNECTED_CLIENTS)) {
+            Data toSend = new Data(clientThreads.toString());
+            sendToSpecificClients(toSend, sender);
+        } else if (existsCustomCommand(command)) {
+            runCustomCommand(command, sentFrom);
+        } else {
+            String errorMsg = "Command " + command.getName() + " not found.";
+            Data errorMsgToSend = new Data(errorMsg);
+            sendToSpecificClients(errorMsgToSend, sender);
+            throw new CommandNotFoundException(command.getName());
+        }
     }
 
-    /*
-     *  To run as a console application just open a console window and:
-     * > java JServer
-     * > java JServer portNumber
-     * If the port number is not specified 1500 is used
+    /**
+     * Checks if a custom command exists in the list of commands entered into the server
+     *
+     * @param command command being searched for in list
+     * @return true if the command exists in the list
      */
-//    public static void main(String[] args) {
-//        //connect server on port 1500 unless a PortNumber is specified
-//        int portNumber = 1500;
-//        switch(args.length) {
-//            case 1:
-//                try {
-//                    portNumber = Integer.parseInt(args[0]);
-//                }
-//                catch(Exception e) {
-//                    System.out.println("Invalid port number.");
-//                    System.out.println("Usage is: > java JServer [portNumber]");
-//                    return;
-//                }
-//            case 0:
-//                break;
-//            default:
-//                System.out.println("Usage is: > java JServer [portNumber]");
-//                return;
-//
-//        }
-//        // create a server object and connect it
-//        JServer server = new JServer(portNumber);
-//        server.connect();
-//    }
+    private boolean existsCustomCommand(Command command) {
+        for (Command c : Command.getAllCommands()) {
+            if (c.equals(command)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    /** One instance of this thread will run for each client */
+    /**
+     * Define what will happen when a custom command is run
+     *
+     * @param command  command to be run
+     * @param sentFrom client request was sent from
+     * @throws IOException
+     */
+    protected abstract void runCustomCommand(Command command, String sentFrom) throws IOException, ClientNotFoundException;
+
+    /**
+     * One instance of this thread will run for each client
+     */
     public class ClientThread extends Thread {
-        // the socket where to listen/talk
+
+        int id;
+        String username;
+        Data data;
+        String date;
         private Socket socket;
         private ObjectInputStream sInput;
         private ObjectOutputStream sOutput;
-        // my unique id (easier for deconnection)
-        int id;
-        // the Username of the JClient
-        String username;
-        // the only type of message a will receive
-        Data data;
-        // the date I connect
-        String date;
 
-        // Constructor
-        public ClientThread(Socket socket) {
-            // a unique id
+        ClientThread(Socket socket) {
+
             id = ++uniqueId;
             this.socket = socket;
             /* Creating both Data Stream */
-            System.out.println("Thread trying to create Object Input/Output Streams");
-            try
-            {
-                // create output first
+            display("Thread trying to create Object Input/Output Streams");
+            try {
                 sOutput = new ObjectOutputStream(socket.getOutputStream());
-                sInput  = new ObjectInputStream(socket.getInputStream());
-                // read the username
+                sInput = new ObjectInputStream(socket.getInputStream());
+
                 username = (String) sInput.readObject();
                 display(username + " just connected.");
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 display("Exception creating new Input/output Streams: " + e);
                 return;
-            }
-            // have to catch ClassNotFoundException
-            // but I read a String, I am sure it will work
-            catch (ClassNotFoundException e) {
+            } catch (ClassNotFoundException ignored) {
             }
             date = new Date().toString() + "\n";
         }
 
-        // what will run forever
+        // Main loop
         public void run() {
-            // to loop until LOGOUT
-            boolean keepGoing = true;
-            while(keepGoing) {
-                // read a String (which is an object)
+            // to loop until logout
+            while (true) {
                 try {
                     data = (Data) sInput.readObject();
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     display(username + " Exception reading Streams: " + e);
                     display(username + " has disconnected from the server.");
-                    remove(id); // TODO: remove the disconnected player
+                    remove(id);
+                    break;
+                } catch (ClassNotFoundException e2) {
                     break;
                 }
-                catch(ClassNotFoundException e2) {
-                    break;
-                }
-                // the messaage part of the Data
-                //String message = data.getMessage();
-
-                // Switch on the type of message receive
-                switch(data.getType()) {
-
-//                    case Data.MESSAGE:
-//                        broadcast(data);
-//                        break;
-//                    case Data.LOGOUT:
-//                        display(username + " disconnected with a LOGOUT message.");
-//                        keepGoing = false;
-//                        break;
+                // Receives data
+                switch (data.getType()) {
                     case Data.COMMAND:
                         display(username + " requested " + data.getCommand().getName());
                         try {
@@ -331,24 +314,24 @@ public abstract class JServer {
                         }
                         break;
 
-                        case Data.OBJECT:
+                    case Data.OBJECT:
+                        try {
+                            broadcast(data);
+                        } catch (ClientNotFoundException e) {
                             try {
-                                broadcast(data);
-                            } catch (ClientNotFoundException e) {
-                                try {
-                                    Data clientNotFound = new Data("Message not sent: One or more clients not found " + e.toString());
-                                    clientNotFound.setRecipients(Collections.singletonList(data.getSender()));
-                                    sendToSpecificClients(clientNotFound, Collections.singletonList(data.getSender()));
-                                } catch (IOException | ClientNotFoundException e1) {
-                                    e1.printStackTrace();
-                                }
+                                Data clientNotFound = new Data("Message not sent: One or more clients not found " + e.toString());
+                                clientNotFound.setRecipients(Collections.singletonList(data.getSender()));
+                                sendToSpecificClients(clientNotFound, Collections.singletonList(data.getSender()));
+                            } catch (IOException | ClientNotFoundException e1) {
+                                e1.printStackTrace();
                             }
-                            break;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        break;
 
                 }
             }
-            // remove myself from the arrayList containing the list of the
-            // connected Clients
             remove(id);
             close();
         }
@@ -357,38 +340,31 @@ public abstract class JServer {
         private void close() {
             // try to close the connection
             try {
-                if(sOutput != null) sOutput.close();
+                if (sOutput != null) sOutput.close();
+            } catch (Exception ignored) {
             }
-            catch(Exception e) {}
             try {
-                if(sInput != null) sInput.close();
+                if (sInput != null) sInput.close();
+            } catch (Exception ignored) {
             }
-            catch(Exception e) {}
             try {
-                if(socket != null) socket.close();
+                if (socket != null) socket.close();
+            } catch (Exception ignored) {
             }
-            catch (Exception e) {}
         }
 
         /*
          * Write a Data message to the JClient output stream for either all clients or one client
          */
         private boolean write(Data msg) {
-            // if JClient is still connected send the message to it
-            if(!socket.isConnected()) {
+            if (!socket.isConnected()) {
                 close();
                 return false;
             }
-            // write the message to the stream
+
             try {
-//                Data toBeSent = new Data(msg, data.getSender());
-////                if (recipient != null) {
-////                    toBeSent.setRecipients(recipient);
-////                }
                 sOutput.writeObject(msg);
-            }
-            // if an error occurs, do not abort just inform the user
-            catch(IOException e) {
+            } catch (IOException e) {
                 display("Error sending message to " + username);
                 display(e.toString());
             }
@@ -408,35 +384,6 @@ public abstract class JServer {
             return username;
         }
     }
-
-    private void runCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException, IOException {
-        LinkedList<String> sender = new LinkedList<>();
-        sender.add(sentFrom);
-
-        if (command.equals(Command.GET_CONNECTED_CLIENTS)) {
-            Data toSend = new Data(clientThreads.toString());
-            sendToSpecificClients(toSend, sender);
-        } else if (existsCustomCommand(command)) {
-            runCustomCommand(command, sentFrom);
-        }
-        else {
-            String errorMsg = "Command " + command.getName() + " not found.";
-            Data errorMsgToSend = new Data(errorMsg);
-            sendToSpecificClients(errorMsgToSend, sender);
-            throw new CommandNotFoundException(command.getName());
-        }
-    }
-
-    private boolean existsCustomCommand(Command command) {
-        for (Command c : Command.getAllCommands()) {
-            if (c.equals(command)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected abstract void runCustomCommand(Command command, String sentFrom) throws IOException;
 
 }
 

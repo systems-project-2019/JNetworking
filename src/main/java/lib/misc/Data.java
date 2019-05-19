@@ -1,23 +1,15 @@
-package lib;
-
-import lib.misc.Interpreter;
-import lib.net.JServer;
+package lib.misc;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
-/*
- * This class defines the different type of messages that will be exchanged between the
- * Clients and the JServer.
+/**
+ * @author Josh Hilbert
+ * Defines the data object which is the type of object passed between servers and clients
  */
 public class Data implements Serializable {
 
-    // The different types of message sent by the JClient
-    // COMMAND to execute a command on the server
-    // OBJECT an object to be sent on the server
     public static final int COMMAND = 0, OBJECT = 2;
     public static final String FROM_SERVER = "Server";
 
@@ -30,66 +22,102 @@ public class Data implements Serializable {
     private List<String> recipients;
     private boolean sendToAll = true;
 
+    /**
+     * Creates new data object of the command type
+     *
+     * @param command the command being stored
+     * @param sender  the sender sending the data
+     */
     public Data(Command command, String sender) {
         this.type = COMMAND;
         this.command = command;
         this.sender = sender;
     }
 
-//    public Data(String message, String sender) {
-//        this.type = 1;
-//        this.message = message;
-//        this.sender = sender;
-//    }
-
+    /**
+     * Creates new data object of the object type
+     *
+     * @param object the object being stored
+     * @param sender the sender sending the data
+     * @throws IOException
+     */
     public Data(Object object, String sender) throws IOException {
         this.type = OBJECT;
         this.object = Interpreter.toByteArray(object);
         this.sender = sender;
     }
 
-    public Data(Object object) throws IOException { // for server sender
+    /**
+     * Creates new data object of the object type with a server as the sender
+     *
+     * @param object the object being stored
+     * @throws IOException
+     */
+    public Data(Object object) throws IOException {
         this.type = OBJECT;
         this.object = Interpreter.toByteArray(object);
-        this.sender = FROM_SERVER; //(server)
+        this.sender = FROM_SERVER;
     }
 
-//    public Data(Object object) {
-//        this.type = OBJECT;
-//        this.object = In
-//    }
-
-
-
+    /**
+     * @return the type of data being stored
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * @return the command being stored in the data object
+     */
     public Command getCommand() {
         return command;
     }
 
+    /**
+     * @return the recipients being stored in the data object
+     */
     public List<String> getRecipients() {
         return recipients;
     }
 
+    /**
+     * Set the recipients of the data object
+     *
+     * @param recipients the new recipient list
+     */
     public void setRecipients(List<String> recipients) {
         sendToAll = false;
         this.recipients = recipients;
     }
 
+    /**
+     * @return the sender of the data object
+     */
     public String getSender() {
         return sender;
     }
 
+    /**
+     * @return true if the data is set to be sent to all clients
+     */
     public boolean isSendToAll() {
         return sendToAll;
     }
 
+    /**
+     * Set whether the data will be sent to all clients
+     *
+     * @param sendToAll the new boolean
+     */
     public void setSendToAll(boolean sendToAll) {
         this.sendToAll = sendToAll;
     }
 
+    /**
+     * @return the object stored in the data
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public Object getObject() throws IOException, ClassNotFoundException {
         return Interpreter.toObject(object);
     }
@@ -98,8 +126,7 @@ public class Data implements Serializable {
     public String toString() {
         if (type == COMMAND) {
             return command.getName();
-        }
-        else {
+        } else {
             try {
                 return getObject().toString();
             } catch (IOException | ClassNotFoundException e) {
