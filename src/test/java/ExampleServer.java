@@ -1,15 +1,19 @@
 import lib.Command;
 import lib.Data;
+import lib.exceptions.ClientNotFoundException;
 import lib.net.JServer;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
 public class ExampleServer extends JServer {
 
+    private static Command<Integer> score = new Command<>("score");
+
     public static void main(String[] args) {
-        Command.addCommand(Commands.WAZA_COMMAND);
+        Command.addCommand(score);
 
         ExampleServer exampleServer = new ExampleServer(1500);
         exampleServer.start();
@@ -34,9 +38,18 @@ public class ExampleServer extends JServer {
 
     @Override
     protected void runCustomCommand(Command command, String sentFrom) throws IOException {
-        if (command.equals(new Command("waza"))) {
-            broadcast(new Data("WAZA"));
+        if (command.equals(score)) {
+            score.setData(8);
+            Data scoreMsg = new Data(score.getData());
+            try {
+                sendToSpecificClients(scoreMsg, Collections.singletonList(sentFrom));
+            } catch (ClientNotFoundException e) {
+                broadcast(new Data("Client not found"));
+            }
         }
     }
 
+    public static Command<Integer> getScore() {
+        return score;
+    }
 }

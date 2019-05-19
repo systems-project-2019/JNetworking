@@ -21,26 +21,16 @@ public class Command<E> implements Serializable {
         this.name = name;
     }
 
-    public static boolean containsCommand(String input) {
-        String commandBase;
 
-        if (input.contains(" ")) {
-            commandBase = input.substring(0, input.indexOf(" "));
-            return commandBase.length() > 2 && commandBase.substring(0, 1).equals("/") && commandExists(commandBase.substring(1));
-        }
-
-        return input.length() > 2 && input.substring(0, 1).equals("/") && commandExists(input.substring(1));
-    }
-
-    private static boolean commandExists(String c) {
-        assert getAllCommands() != null;
-        for (Command command : getAllCommands()) {
-            if (command.getName().equalsIgnoreCase(c))
-                return true;
-        }
-
-        return false;
-    }
+//    private static boolean commandExists(String c) {
+//        assert getAllCommands() != null;
+//        for (Command command : getAllCommands()) {
+//            if (command.getName().equalsIgnoreCase(c))
+//                return true;
+//        }
+//
+//        return false;
+//    }
 
     public static List<Command> getAllCommands() {
         return allCommands;
