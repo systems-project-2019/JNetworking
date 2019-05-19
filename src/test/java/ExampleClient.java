@@ -15,8 +15,7 @@ public class ExampleClient extends JClient {
         ExampleClient exampleClient = new ExampleClient("localhost", 1500, sc.next());
         exampleClient.connect();
         sc.next();
-        exampleClient.broadcast("Hi");
-
+        exampleClient.requestCommand(new Command<>("waza"));
     }
 
     @Override

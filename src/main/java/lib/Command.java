@@ -13,9 +13,9 @@ public class Command<E> implements Serializable {
 
     private static List<Command> allCommands = new LinkedList<>();
 
-    public Command() {
-
-    }
+//    public Command() {
+//
+//    }
 
     public Command(String name) {
         this.name = name;

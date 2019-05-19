@@ -2,6 +2,7 @@ import lib.Command;
 import lib.Data;
 import lib.net.JServer;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -32,7 +33,7 @@ public class ExampleServer extends JServer {
     }
 
     @Override
-    protected void runCustomCommand(Command command, String sentFrom) {
+    protected void runCustomCommand(Command command, String sentFrom) throws IOException {
         if (command.equals(new Command("waza"))) {
             broadcast(new Data("WAZA"));
         }
