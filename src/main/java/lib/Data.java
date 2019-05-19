@@ -1,6 +1,7 @@
 package lib;
 
 import lib.misc.Interpreter;
+import lib.net.JServer;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -38,16 +39,16 @@ public class Data implements Serializable {
         this.sender = sender;
     }
 
-    public Data(String message, String sender) {
-        this.type = 1;
-        this.message = message;
-        this.sender = sender;
-    }
+//    public Data(String message, String sender) {
+//        this.type = 1;
+//        this.message = message;
+//        this.sender = sender;
+//    }
 
-    public Data(Object object) throws IOException {
+    public Data(Object object, String sender) throws IOException {
         this.type = 2;
         this.object = Interpreter.toByteArray(object);
-        //this.sender = sender;
+        this.sender = sender;
     }
 
     public Data(String message) { // for server sender
@@ -61,9 +62,9 @@ public class Data implements Serializable {
     public int getType() {
         return type;
     }
-    public String getMessage() {
-        return message;
-    }
+//    public String getMessage() {
+//        return message;
+//    }
 
     public Command getCommand() {
         return command;
@@ -100,7 +101,11 @@ public class Data implements Serializable {
             return command.getName();
         }
         else {
-            return message;
+            try {
+                return getObject().toString();
+            } catch (IOException | ClassNotFoundException e) {
+                return e.getMessage();
+            }
         }
     }
 }

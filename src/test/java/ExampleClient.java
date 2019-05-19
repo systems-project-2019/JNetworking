@@ -1,5 +1,4 @@
 import lib.Command;
-import lib.Data;
 import lib.net.JClient;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ public class ExampleClient extends JClient {
         ExampleClient exampleClient = new ExampleClient("localhost", 1500, sc.next());
         exampleClient.connect();
         sc.next();
-        exampleClient.broadcast(new Data(8));
+        exampleClient.broadcast("Hi");
 
     }
 
@@ -26,18 +25,18 @@ public class ExampleClient extends JClient {
     }
 
     @Override
-    public String sendToAllDisplayFormat(String message, String sender) {
-        return sender + ": " + message;
+    public String displaySendToAllMessage(Object input, String sender) {
+        return sender + ": " + input.toString();
     }
 
     @Override
-    public String sendToSpecificClientsFormat(String message, String sender, List<String> recipients) {
+    public String sendToSpecificClientsFormat(Object input, String sender, List<String> recipients) {
         if (recipients.contains(getUsername())) {
             recipients.remove(getUsername());
             recipients.add("You");
         }
 
-        return "Server: " + "--> " + recipients + ": " + message;
+        return "Server: " + "--> " + recipients + ": " + input.toString();
     }
 
     @Override

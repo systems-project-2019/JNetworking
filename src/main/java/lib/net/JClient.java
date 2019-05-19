@@ -125,33 +125,42 @@ public abstract class JClient {
         display("You: " + message);
     }
 
-//    public void broadcast(Object object) throws IOException {
-//        sOutput.writeObject(new Data(input, username));
-//        display("You: " + input);
-//    }
+    public void broadcast(Object object) throws IOException {
+        sOutput.writeObject(new Data(object, username));
+        display("You: " + object.toString());
+    }
 
-    public void sendTo(String message, String... clients) {
-        LinkedList<String> recipients = new LinkedList<>();
-        recipients.addAll(Arrays.asList(clients));
+    public void sendTo(Object input, String... clients) {
+        LinkedList<String> recipients = new LinkedList<>(Arrays.asList(clients));
 
-        Data toSend = new Data(message, this.username);
-        toSend.setRecipients(recipients);
+        Data toSend = null;
+        try {
+            toSend = new Data(input, this.username);
+            toSend.setRecipients(recipients);
+        } catch (IOException e) {
+            display(e.getMessage());
+        }
 
         try {
             sOutput.writeObject(toSend);
-            display("You --> " + recipients + ": " + message);
+            display("You --> " + recipients + ": " + input);
         } catch (IOException e) {
             display("Error Sending Message: " + e);
         }
     }
 
-    public void sendTo(String message, List<String> recipients) {
-        Data toSend = new Data(message, this.username);
-        toSend.setRecipients(recipients);
+    public void sendTo(Object input, List<String> recipients) {
+        Data toSend = null;
+        try {
+            toSend = new Data(input, this.username);
+            toSend.setRecipients(recipients);
+        } catch (IOException e) {
+            display(e.getMessage());
+        }
 
         try {
             sOutput.writeObject(toSend);
-            display("You --> " + recipients + ": " + message);
+            display("You --> " + recipients + ": " + input);
         } catch (IOException e) {
             display("Error Sending Message: " + e);
         }
@@ -169,9 +178,9 @@ public abstract class JClient {
         }
     }
 
-    public abstract String sendToAllDisplayFormat(String message, String sender);
+    public abstract String displaySendToAllMessage(Object message, String sender);
 
-    public abstract String sendToSpecificClientsFormat(String message, String sender, List<String> recipients);
+    public abstract String sendToSpecificClientsFormat(Object message, String sender, List<String> recipients);
 
 
     /*
@@ -186,19 +195,24 @@ public abstract class JClient {
                     Data input = (Data) sInput.readObject();
                     // if console mode print the message and add back the prompt
                     //if(cg == null) {
+                    //TODO: make this a switch block
 
                     if (input.getType() == Data.COMMAND) {
                         runCommand(input.getCommand());
-                    } else if (input.getType() == Data.MESSAGE) {
-                        String msg = input.getMessage();
-                        if (!messageIsFromRecipient(input)) {
-                            if (input.isSendToAll())
-                                display(sendToAllDisplayFormat(msg, input.getSender()));
-                            else
-                                display(sendToSpecificClientsFormat(msg, input.getSender(), input.getRecipients()));
+                    }
+//                    else if (input.getType() == Data.MESSAGE) {
+//                        String msg = input.getMessage();
+//                        if (!dataIsFromRecipient(input)) {
+//                            if (input.isSendToAll())
+//                                display(displaySendToAllMessage(input, input.getSender()));
+//                            else
+//                                display(sendToSpecificClientsFormat(input, input.getSender(), input.getRecipients()));
+//                        }
+//                    }
+                    else if (input.getType() == Data.OBJECT) {
+                        if (!dataIsFromRecipient(input)) {
+                            formatInputForDisplay(input);
                         }
-                    } else if (input.getType() == Data.OBJECT) {
-                        System.out.println(input.getObject());
                     }
 
                 }
@@ -212,6 +226,22 @@ public abstract class JClient {
             }
         }
 
+        private void formatInputForDisplay(Data input) {
+            if (input.isSendToAll()) {
+                try {
+                    displaySendToAllMessage(input.getObject(), input.getSender());
+                } catch (IOException | ClassNotFoundException e) {
+                    display(e.getMessage());
+                }
+            } else {
+                try {
+                    sendToSpecificClientsFormat(input.getObject(), input.getSender(), input.getRecipients());
+                } catch (IOException | ClassNotFoundException e) {
+                    display(e.getMessage());
+                }
+            }
+        }
+
         private boolean thisContainedInRecipientList(Data input) {
             for (String player : input.getRecipients()) {
                 if (player.equals(username))
@@ -220,7 +250,7 @@ public abstract class JClient {
             return false;
         }
 
-        private boolean messageIsFromRecipient(Data input) {
+        private boolean dataIsFromRecipient(Data input) {
             if (input.getSender().equals(Data.FROM_SERVER))
                 return false;
             return input.getSender().equals(username);
