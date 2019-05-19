@@ -2,7 +2,18 @@ package lib.misc;
 
 import java.io.*;
 
+/**
+ * @author Josh Hilbert
+ * Class contains static methods to convert objects to byte arrays and from byte arrays to objects
+ */
 public class Interpreter {
+    /**
+     * Converts an object to a byte array
+     *
+     * @param obj an object
+     * @return a byte array which represents the inputted object
+     * @throws IOException
+     */
     public static byte[] toByteArray(Object obj) throws IOException {
         byte[] bytes = null;
         ByteArrayOutputStream bos = null;
@@ -24,6 +35,13 @@ public class Interpreter {
         return bytes;
     }
 
+    /**
+     * Converts a byte array to an Object
+     *
+     * @param bytes a byte array
+     * @return an Object derived from the inputted byte array
+     * @throws IOException
+     */
     public static Object toObject(byte[] bytes) throws IOException, ClassNotFoundException {
         Object obj = null;
         ByteArrayInputStream bis = null;

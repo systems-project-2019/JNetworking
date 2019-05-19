@@ -1,7 +1,7 @@
 package lib.net;
 
-import lib.Command;
-import lib.Data;
+import lib.misc.Command;
+import lib.misc.Data;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,125 +11,115 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-/*
- * The JClient that can be run both as a console or a GUI
+/**
+ * @author Josh Hilbert
+ * An abstract client class meant to be extended in a custom client classs
+ * Loosely based on the work of user: pbl on 13 December 2011
+ * https://www.dreamincode.net/forums/topic/259777-a-simple-chat-program-with-clientserver-gui-optional/
  */
 public abstract class JClient {
 
-    // for I/O
-    private ObjectInputStream sInput;		// to read from the socket
-    private ObjectOutputStream sOutput;		// to write on the socket
+    private ObjectInputStream sInput;
+    private ObjectOutputStream sOutput;
     private Socket socket;
 
-    // if I use a GUI or not
-    //private ClientGUI cg;
-
-    // the server, the port and the username
     private String server, username;
     private int port;
 
 
+    /**
+     * Client constructor
+     *
+     * @param server_ip the server ip to try to connect to
+     * @param port      the port of the server
+     * @param username  the username of the connecting client
+     */
     public JClient(String server_ip, int port, String username) {
         this.server = server_ip;
         this.port = port;
         this.username = username;
     }
 
-    /*
-     * To connect the dialog
+    /**
+     * Attempt to connect the client to the server
      */
     public void connect() {
-        // try to connect to the server
         try {
             socket = new Socket(server, port);
-        }
-        // if it failed not much I can so
-        catch(Exception ec) {
+        } catch (Exception ec) {
             display("Error connecting to server:" + ec);
         }
 
         display("Connection accepted " + socket.getInetAddress() + ":" + socket.getPort());
 
-        /* Creating both Data Stream */
-        try
-        {
-            sInput  = new ObjectInputStream(socket.getInputStream());
+        try {
+            sInput = new ObjectInputStream(socket.getInputStream());
             sOutput = new ObjectOutputStream(socket.getOutputStream());
-        }
-        catch (IOException eIO) {
+        } catch (IOException eIO) {
             display("Exception creating new Input/output Streams: " + eIO);
         }
 
-        // creates the Thread to listen from the server
         new ListenFromServer().start();
-        // Send our username to the server this is the only message that we
-        // will send as a String. All other messages will be Data objects
-        try
-        {
+
+        try {
             sOutput.writeObject(username);
-        }
-        catch (IOException eIO) {
+        } catch (IOException eIO) {
             display("Exception logging in : " + eIO);
             disconnect();
         }
-        // success we inform the caller that it worked
     }
 
 
-
-    public abstract void display(String message);
+    /**
+     * Abstract method to display information coming from the client
+     *
+     * @param s String to be displayed
+     */
+    public abstract void display(String s);
 
     /*
-     * To send a message to the server
+     * Disconnect this instance of a client from the server
      */
-    public void sendMessage(Data output) {
+    public void disconnect() {
         try {
-            sOutput.writeObject(output);
+            if (sInput != null) sInput.close();
+        } catch (Exception ignored) {
         }
-        catch(IOException e) {
-            display("Exception writing to server: " + e);
-            e.printStackTrace();
-        }
-    }
-
-    /*
-     * When something goes wrong
-     * Close the Input/Output streams and disconnect not much to do in the catch clause
-     */
-    private void disconnect() {
         try {
-            if(sInput != null) sInput.close();
+            if (sOutput != null) sOutput.close();
+        } catch (Exception ignored) {
         }
-        catch(Exception e) {} // not much else I can do
         try {
-            if(sOutput != null) sOutput.close();
+            if (socket != null) socket.close();
+        } catch (Exception ignored) {
         }
-        catch(Exception e) {} // not much else I can do
-        try{
-            if(socket != null) socket.close();
-        }
-        catch(Exception e) {} // not much else I can do
-
-        // inform the GUI
-//        if(cg != null)
-//            cg.connectionFailed();
 
     }
 
+    /**
+     * @return the username of the client
+     */
     public String getUsername() {
         return username;
     }
 
-//    public void broadcast(String message) throws IOException {
-//        sOutput.writeObject(new Data(message, username));
-//        display("You: " + message);
-//    }
-
+    /**
+     * Broadcasts an object to all clients
+     *
+     * @param object
+     * @throws IOException
+     */
     public void broadcast(Object object) throws IOException {
         sOutput.writeObject(new Data(object, username));
         display("You: " + object.toString());
     }
 
+    /**
+     * Sends an object to specific clients
+     *
+     * @param input   the object to send
+     * @param clients an unlimited number of client parameters to send to
+     */
     public void sendTo(Object input, String... clients) {
         LinkedList<String> recipients = new LinkedList<>(Arrays.asList(clients));
 
@@ -149,6 +139,12 @@ public abstract class JClient {
         }
     }
 
+    /**
+     * Sends and object to specific clients
+     *
+     * @param input      the object to send
+     * @param recipients a list of recipients
+     */
     public void sendTo(Object input, List<String> recipients) {
         Data toSend = null;
         try {
@@ -166,10 +162,18 @@ public abstract class JClient {
         }
     }
 
+    /**
+     * Requests the built in command of getting a list of all connected clients
+     */
     public void getUsers() {
-        requestCommand(Command.GET_CONNECTED_CLIENTS);
+        requestCommand(Command.CONNECTED_CLIENTS);
     }
 
+    /**
+     * Requests a custom command
+     *
+     * @param command the requested command
+     */
     public void requestCommand(Command command) {
         display("You: requested " + command.getName());
         try {
@@ -179,54 +183,74 @@ public abstract class JClient {
         }
     }
 
-    public abstract String displaySendToAllMessage(Object message, String sender);
+    /**
+     * Defines a format for displaying a message sent by the client to all clients (can be overridden)
+     *
+     * @param input  the object being sent
+     * @param sender the client sending the message
+     * @return a formatted string
+     */
+    public String displaySendToAllMessage(Object input, String sender) {
+        return sender + ": " + input.toString();
+    }
 
-    public abstract String sendToSpecificClientsFormat(Object message, String sender, List<String> recipients);
+    /**
+     * Defines a format for displaying a message sent by the client to specific clients (can be overridden)
+     *
+     * @param input      the object being sent
+     * @param sender     the client sending the message
+     * @param recipients recipients of the message
+     * @return a formatted string
+     */
+    public String sendToSpecificClientsFormat(Object input, String sender, List<String> recipients) {
+        List<String> updatedRecipients = new LinkedList<>(recipients);
 
+        if (updatedRecipients.contains(username)) {
+            updatedRecipients.remove(username);
+            updatedRecipients.add("You");
+        }
+
+        return sender + " --> " + updatedRecipients + ": " + input.toString();
+    }
+
+    /**
+     * Define how custom commands will be run
+     *
+     * @param command the custom command to be run
+     */
+    protected abstract void runCommand(Command command);
 
     /*
-     * a class that waits for the message from the server and append them to the JTextArea
-     * if we have a GUI or simply System.out.println() it in console mode
+     * Class that waits for data from the server
      */
     class ListenFromServer extends Thread {
 
         public void run() {
-            while(true) {
+            while (true) {
                 try {
                     Data input = (Data) sInput.readObject();
-                    // if console mode print the message and add back the prompt
-                    //if(cg == null) {
-                    //TODO: make this a switch block
-
                     if (input.getType() == Data.COMMAND) {
                         runCommand(input.getCommand());
-                    }
-//                    else if (input.getType() == Data.MESSAGE) {
-//                        String msg = input.getMessage();
-//                        if (!dataIsFromRecipient(input)) {
-//                            if (input.isSendToAll())
-//                                display(displaySendToAllMessage(input, input.getSender()));
-//                            else
-//                                display(sendToSpecificClientsFormat(input, input.getSender(), input.getRecipients()));
-//                        }
-//                    }
-                    else if (input.getType() == Data.OBJECT) {
+                    } else if (input.getType() == Data.OBJECT) {
                         if (!dataIsFromRecipient(input)) {
-                            formatInputForDisplay(input);
+                            if (input.getRecipients().contains(username))
+                                formatInputForDisplay(input);
                         }
                     }
 
-                }
-                catch(IOException e) {
+                } catch (IOException e) {
                     display("Server has closed the connection: " + e);
                     break;
-                }
-
-                catch(ClassNotFoundException ignored) {
+                } catch (ClassNotFoundException ignored) {
                 }
             }
         }
 
+        /**
+         * Decides what type of formatting will be done to the incoming data
+         *
+         * @param input incoming data
+         */
         private void formatInputForDisplay(Data input) {
             if (input.isSendToAll()) {
                 try {
@@ -243,20 +267,16 @@ public abstract class JClient {
             }
         }
 
-        private boolean thisContainedInRecipientList(Data input) {
-            for (String player : input.getRecipients()) {
-                if (player.equals(username))
-                    return true;
-            }
-            return false;
-        }
-
+        /**
+         * Checks if this instance of a client sent the data being received
+         *
+         * @param input data being received
+         * @return true if the sender of the data is this instance of client
+         */
         private boolean dataIsFromRecipient(Data input) {
             if (input.getSender().equals(Data.FROM_SERVER))
                 return false;
             return input.getSender().equals(username);
         }
     }
-
-    protected abstract void runCommand(Command command);
 }
