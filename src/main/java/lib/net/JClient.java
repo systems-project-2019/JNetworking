@@ -212,7 +212,8 @@ public abstract class JClient {
 //                    }
                     else if (input.getType() == Data.OBJECT) {
                         if (!dataIsFromRecipient(input)) {
-                            formatInputForDisplay(input);
+                            if (input.getRecipients().contains(username))
+                                formatInputForDisplay(input);
                         }
                     }
 

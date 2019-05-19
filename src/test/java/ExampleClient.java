@@ -41,7 +41,7 @@ public class ExampleClient extends JClient {
             updatedRecipients.add("You");
         }
 
-        return "Server: " + "--> " + updatedRecipients + ": " + input.toString();
+        return sender + ": --> " + updatedRecipients + ": " + input.toString();
     }
 
     @Override

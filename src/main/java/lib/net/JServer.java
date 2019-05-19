@@ -116,9 +116,16 @@ public abstract class JServer {
     /*
      *  to broadcast a message to all Clients
      */
-    public synchronized void broadcast(Data data) {
-        display(data.getSender() + ": " + data.toString());
-        writeToClients(data);
+    public synchronized void broadcast(Data data) throws ClientNotFoundException {
+        if (allRecipientsConnectedToServer(data.getRecipients())) {
+            if (data.isSendToAll()) {
+                display(data.getSender() + ": " + data.toString());
+            } else {
+                display(data.getSender() + ": --> " + data.getRecipients() + ": " + data.toString());
+            }
+            writeToClients(data);
+        } else
+            throw new ClientNotFoundException();
     }
 
 //    private LinkedList<String> sendToAll() {
@@ -130,16 +137,16 @@ public abstract class JServer {
 //    }
 
     public void sendToSpecificClients(Data data, List<String> recipients) throws ClientNotFoundException {
-        boolean recipientConnected = false;
+        boolean recipientsConnected = false;
         ClientThread sendTo = null;
         for (ClientThread ct : clientThreads) {
             if (recipients.contains(ct.username)) {
                 sendTo = ct;
-                recipientConnected = true;
+                recipientsConnected = true;
             }
         }
 
-        if (recipientConnected) {
+        if (recipientsConnected) {
             data.setRecipients(recipients);
             sendTo.write(data);
             display(sentToFormat(data.toString(), recipients));
@@ -178,13 +185,12 @@ public abstract class JServer {
     }
 
     private boolean allRecipientsConnectedToServer(List<String> recipients) {
+        LinkedList<String> connectedPlayers = new LinkedList<>();
         for (ClientThread player : clientThreads) {
-            for (String recipient : recipients) {
-                if (player.getUsername().trim().equalsIgnoreCase(recipient.trim()))
-                    return true;
-            }
+            connectedPlayers.add(player.getUsername());
         }
-        return false;
+
+        return connectedPlayers.containsAll(recipients);
     }
 
     // for a client who logoff using the LOGOUT message
@@ -326,7 +332,17 @@ public abstract class JServer {
                         break;
 
                         case Data.OBJECT:
-                            broadcast(data);
+                            try {
+                                broadcast(data);
+                            } catch (ClientNotFoundException e) {
+                                try {
+                                    Data clientNotFound = new Data("Message not sent: One or more clients not found " + e.toString());
+                                    clientNotFound.setRecipients(Collections.singletonList(data.getSender()));
+                                    sendToSpecificClients(clientNotFound, Collections.singletonList(data.getSender()));
+                                } catch (IOException | ClientNotFoundException e1) {
+                                    e1.printStackTrace();
+                                }
+                            }
                             break;
 
                 }

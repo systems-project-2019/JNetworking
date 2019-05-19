@@ -44,7 +44,11 @@ public class ExampleServer extends JServer {
             try {
                 sendToSpecificClients(scoreMsg, Collections.singletonList(sentFrom));
             } catch (ClientNotFoundException e) {
-                broadcast(new Data("Client not found"));
+                try {
+                    broadcast(new Data("Client not found"));
+                } catch (ClientNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
