@@ -102,6 +102,13 @@ public abstract class JServer {
     }
 
     /**
+     * Shuts down the server
+     */
+    public void stop() {
+        System.exit(0);
+    }
+
+    /**
      * Abstract method to display information coming from the server
      *
      * @param s String to be displayed
@@ -309,7 +316,7 @@ public abstract class JServer {
                         display(username + " requested " + data.getCommand().getName());
                         try {
                             runCommand(data.getCommand(), data.getSender());
-                        } catch (CommandNotFoundException | ClientNotFoundException | IOException e) { // client not found message?
+                        } catch (CommandNotFoundException | ClientNotFoundException | IOException e) {
                             e.printStackTrace();
                         }
                         break;
@@ -336,9 +343,9 @@ public abstract class JServer {
             close();
         }
 
-        // try to close everything
-        private void close() {
-            // try to close the connection
+        // try to stop everything
+        void close() {
+            // try to stop the connection
             try {
                 if (sOutput != null) sOutput.close();
             } catch (Exception ignored) {

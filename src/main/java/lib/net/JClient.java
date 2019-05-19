@@ -80,7 +80,7 @@ public abstract class JClient {
     /*
      * Disconnect this instance of a client from the server
      */
-    private void disconnect() {
+    public void disconnect() {
         try {
             if (sInput != null) sInput.close();
         } catch (Exception ignored) {
