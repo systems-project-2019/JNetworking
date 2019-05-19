@@ -317,10 +317,10 @@ public abstract class JServer {
 //                        keepGoing = false;
 //                        break;
                     case Data.COMMAND:
-                        display(username + ": requested " + data.getCommand().getName());
+                        display(username + " requested " + data.getCommand().getName());
                         try {
                             runCommand(data.getCommand(), data.getSender());
-                        } catch (CommandNotFoundException | ClientNotFoundException e) { // client not found message?
+                        } catch (CommandNotFoundException | ClientNotFoundException | IOException e) { // client not found message?
                             e.printStackTrace();
                         }
                         break;
@@ -393,7 +393,7 @@ public abstract class JServer {
         }
     }
 
-    private void runCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException {
+    private void runCommand(Command command, String sentFrom) throws CommandNotFoundException, ClientNotFoundException, IOException {
         LinkedList<String> sender = new LinkedList<>();
         sender.add(sentFrom);
 
@@ -420,7 +420,7 @@ public abstract class JServer {
         return false;
     }
 
-    protected abstract void runCustomCommand(Command command, String sentFrom);
+    protected abstract void runCustomCommand(Command command, String sentFrom) throws IOException;
 
 }
 

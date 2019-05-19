@@ -120,10 +120,10 @@ public abstract class JClient {
         return username;
     }
 
-    public void broadcast(String message) throws IOException {
-        sOutput.writeObject(new Data(message, username));
-        display("You: " + message);
-    }
+//    public void broadcast(String message) throws IOException {
+//        sOutput.writeObject(new Data(message, username));
+//        display("You: " + message);
+//    }
 
     public void broadcast(Object object) throws IOException {
         sOutput.writeObject(new Data(object, username));
@@ -171,6 +171,7 @@ public abstract class JClient {
     }
 
     public void requestCommand(Command command) {
+        display("You: requested " + command.getName());
         try {
             sOutput.writeObject(new Data(command, username));
         } catch (IOException e) {
@@ -229,13 +230,13 @@ public abstract class JClient {
         private void formatInputForDisplay(Data input) {
             if (input.isSendToAll()) {
                 try {
-                    displaySendToAllMessage(input.getObject(), input.getSender());
+                    display(displaySendToAllMessage(input.getObject(), input.getSender()));
                 } catch (IOException | ClassNotFoundException e) {
                     display(e.getMessage());
                 }
             } else {
                 try {
-                    sendToSpecificClientsFormat(input.getObject(), input.getSender(), input.getRecipients());
+                    display(sendToSpecificClientsFormat(input.getObject(), input.getSender(), input.getRecipients()));
                 } catch (IOException | ClassNotFoundException e) {
                     display(e.getMessage());
                 }

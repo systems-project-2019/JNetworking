@@ -2,6 +2,9 @@ import lib.Command;
 import lib.net.JClient;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,8 +18,8 @@ public class ExampleClient extends JClient {
         ExampleClient exampleClient = new ExampleClient("localhost", 1500, sc.next());
         exampleClient.connect();
         sc.next();
-        exampleClient.broadcast("Hi");
-
+        //exampleClient.requestCommand(ExampleServer.getScore());
+        exampleClient.sendTo("Hi", "Gavin", "Michael");
     }
 
     @Override
@@ -31,12 +34,14 @@ public class ExampleClient extends JClient {
 
     @Override
     public String sendToSpecificClientsFormat(Object input, String sender, List<String> recipients) {
-        if (recipients.contains(getUsername())) {
-            recipients.remove(getUsername());
-            recipients.add("You");
+        List<String> updatedRecipients = new LinkedList<>(recipients);
+
+        if (updatedRecipients.contains(getUsername())) {
+            updatedRecipients.remove(getUsername());
+            updatedRecipients.add("You");
         }
 
-        return "Server: " + "--> " + recipients + ": " + input.toString();
+        return "Server: " + "--> " + updatedRecipients + ": " + input.toString();
     }
 
     @Override
