@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="Networking Library:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java" line="112" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db42875f-75a6-4c95-9c85-8f271149c68e" name="Default" comment="Spring cleaning and commenting">
+    <list default="true" id="db42875f-75a6-4c95-9c85-8f271149c68e" name="Default" comment="Add stop function to server">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/exceptions/CommandNotFoundException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Library/lib/exceptions/CommandNotFoundException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/misc/Time.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Networking Library/lib/misc/Time.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Command.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Networking Library/lib/Data.class" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -29,7 +33,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/ExampleServer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="342">
@@ -41,11 +45,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="104" column="28" selection-start-line="104" selection-start-column="28" selection-end-line="104" selection-end-column="28" />
+            <state relative-caret-position="38">
+              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
               <folding>
                 <element signature="e#3265#3266#0" expanded="true" />
                 <element signature="e#3294#3295#0" expanded="true" />
@@ -57,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="82" column="10" selection-start-line="82" selection-start-column="10" selection-end-line="82" selection-end-column="10" />
+            <state relative-caret-position="312">
+              <caret line="253" column="11" selection-start-line="253" selection-start-column="11" selection-end-line="253" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -98,6 +102,8 @@
       <find>: --&gt;</find>
       <find>disc</find>
       <find>close</find>
+      <find>system.out</find>
+      <find>print</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -134,8 +140,8 @@
         <option value="$PROJECT_DIR$/src/main/java/lib/misc/Interpreter.java" />
         <option value="$PROJECT_DIR$/src/main/java/lib/net/JClient.java" />
         <option value="$PROJECT_DIR$/src/test/java/ExampleClient.java" />
-        <option value="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" />
         <option value="$PROJECT_DIR$/src/test/java/ExampleServer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/lib/net/JServer.java" />
       </list>
     </option>
   </component>
@@ -242,10 +248,10 @@
   </component>
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="format&#9;ACTION&#9;ReformatCode" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558302636761" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1558303593543" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/test/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/jars" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Language Defaults" />
@@ -435,7 +441,14 @@
       <option name="project" value="LOCAL" />
       <updated>1558302286420</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Add stop function to server">
+      <created>1558302691859</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1558302691859</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -486,7 +499,8 @@
     <MESSAGE value="Minor updates fixed while testing" />
     <MESSAGE value="More minor updates" />
     <MESSAGE value="Spring cleaning and commenting" />
-    <option name="LAST_COMMIT_MESSAGE" value="Spring cleaning and commenting" />
+    <MESSAGE value="Add stop function to server" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add stop function to server" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -586,24 +600,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
-          <caret line="82" column="10" selection-start-line="82" selection-start-column="10" selection-end-line="82" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JServer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="104" column="28" selection-start-line="104" selection-start-column="28" selection-end-line="104" selection-end-column="28" />
-          <folding>
-            <element signature="e#3265#3266#0" expanded="true" />
-            <element signature="e#3294#3295#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/ExampleClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="209">
@@ -621,16 +617,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="253" column="11" selection-start-line="253" selection-start-column="11" selection-end-line="253" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/lib/net/JServer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="38">
+          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
+          <folding>
+            <element signature="e#3265#3266#0" expanded="true" />
+            <element signature="e#3294#3295#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
   <component name="masterDetails">
     <states>
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>Networking Library:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
@@ -650,7 +666,7 @@
       </state>
       <state key="GlobalLibrariesConfigurable.UI">
         <settings>
-          <last-edited>scala-sdk-2.12.4</last-edited>
+          <last-edited>Python 3.7 interpreter library</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

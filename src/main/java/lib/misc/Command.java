@@ -1,11 +1,12 @@
 package lib.misc;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @param <E> the data type of the object the command holds
+ * @param <E> the object type of the object the command holds
  *            Defines a command object which is used to request servers and clients do certain tasks
  * @author Josh Hilbert
  */
@@ -14,7 +15,7 @@ public class Command<E> implements Serializable {
     public static final Command CONNECTED_CLIENTS = new Command<>("getConnectedClients");
     private static List<Command> allCommands = new LinkedList<>();
     private String name;
-    private E data;
+    private byte[] object;
 
     /**
      * @param name the name of the command
@@ -64,19 +65,19 @@ public class Command<E> implements Serializable {
     }
 
     /**
-     * @return the data type associated with the command
+     * @return the object associated with the command
      */
-    public E getData() {
-        return data;
+    public Object getObject() throws IOException, ClassNotFoundException {
+        return Interpreter.toObject(object);
     }
 
     /**
-     * Set the data type associated with the command
+     * Set the object associated with the command
      *
-     * @param data the new data type of the command
+     * @param object the new object type of the command
      */
-    public void setData(E data) {
-        this.data = data;
+    public void setObject(Object object) throws IOException {
+        this.object = Interpreter.toByteArray(object);
     }
 
     /**

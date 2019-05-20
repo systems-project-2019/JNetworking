@@ -33,8 +33,8 @@ public class ExampleServer extends JServer {
     @Override
     protected void runCustomCommand(Command command, String sentFrom) throws IOException, ClientNotFoundException {
         if (command.equals(score)) {
-            score.setData(8);
-            Data scoreMsg = new Data(score.getData());
+            score.setObject(8);
+            Data scoreMsg = new Data(score.getObject());
             try {
                 sendToSpecificClients(scoreMsg, Collections.singletonList(sentFrom));
             } catch (ClientNotFoundException e) {
