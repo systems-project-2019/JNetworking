@@ -259,9 +259,8 @@ public abstract class JServer {
      *
      * @param command  command to be run
      * @param sentFrom client request was sent from
-     * @throws IOException
      */
-    protected abstract void runCustomCommand(Command command, String sentFrom) throws IOException, ClientNotFoundException;
+    protected abstract void runCustomCommand(Command command, String sentFrom);
 
     /**
      * One instance of this thread will run for each client

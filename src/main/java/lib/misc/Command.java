@@ -2,6 +2,7 @@ package lib.misc;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class Command<E> implements Serializable {
      *
      * @param command the command to add
      */
-    public static void addCommand(Command command) {
-        allCommands.add(command);
+    public static void addCommand(Command... command) {
+        allCommands.addAll(Arrays.asList(command));
     }
 
     /**
