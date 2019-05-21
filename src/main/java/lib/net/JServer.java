@@ -10,6 +10,7 @@ import lib.misc.Time;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
@@ -119,16 +120,18 @@ public abstract class JServer {
      *  to broadcast a data object to all Clients
      */
     public synchronized void broadcast(Data data) throws ClientNotFoundException, IOException {
-        if (allRecipientsConnectedToServer(data.getRecipients())) {
-            if (data.isSendToAll()) {
-                display(data.getSender() + ": " + data.toString());
-            } else {
+        if (!data.isSendToAll()) {
+            if (allRecipientsConnectedToServer(data.getRecipients())) {
                 display(data.getSender() + " --> " + data.getRecipients() + ": " + data.toString());
-            }
 
+                writeToClients(data);
+            } else
+                throw new ClientNotFoundException();
+        } else {
+            display(data.getSender() + ": " + data.toString());
             writeToClients(data);
-        } else
-            throw new ClientNotFoundException();
+        }
+
     }
 
     /**
@@ -259,9 +262,8 @@ public abstract class JServer {
      *
      * @param command  command to be run
      * @param sentFrom client request was sent from
-     * @throws IOException
      */
-    protected abstract void runCustomCommand(Command command, String sentFrom) throws IOException, ClientNotFoundException;
+    protected abstract void runCustomCommand(Command command, String sentFrom);
 
     /**
      * One instance of this thread will run for each client

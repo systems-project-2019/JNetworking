@@ -6,6 +6,7 @@ import lib.misc.Data;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -233,8 +234,12 @@ public abstract class JClient {
                         runCommand(input.getCommand());
                     } else if (input.getType() == Data.OBJECT) {
                         if (!dataIsFromRecipient(input)) {
-                            if (input.getRecipients().contains(username))
+                            if (!input.isSendToAll()) {
+                                if (input.getRecipients().contains(username))
+                                    formatInputForDisplay(input);
+                            } else {
                                 formatInputForDisplay(input);
+                            }
                         }
                     }
 

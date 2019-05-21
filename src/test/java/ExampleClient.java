@@ -1,6 +1,7 @@
 import lib.misc.Command;
 import lib.net.JClient;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class ExampleClient extends JClient {
@@ -12,9 +13,25 @@ public class ExampleClient extends JClient {
         Scanner sc = new Scanner(System.in);
         ExampleClient exampleClient = new ExampleClient("localhost", 1500, sc.next());
         exampleClient.connect();
-        //sc.next();
-        //exampleClient.requestCommand(ExampleServer.getScore());
+        sc.next();
+        exampleClient.requestCommand(ExampleServer.getScore());
         //exampleClient.sendTo("Hi", "Gavin", "Michael");
+//        try {
+//            exampleClient.broadcast("Hi");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        while (true) {
+//            String input = sc.next();
+//            if (input.equalsIgnoreCase("exit")) {
+//                exampleClient.disconnect();
+//            }
+//            try {
+//                exampleClient.broadcast(input);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
     }
 
     @Override
