@@ -16,7 +16,7 @@ public class Command<E> implements Serializable {
     public static final Command CONNECTED_CLIENTS = new Command<>("getConnectedClients");
     private static List<Command> allCommands = new LinkedList<>();
     private String name;
-    private byte[] object;
+    private Object object;
 
     /**
      * @param name the name of the command
@@ -69,7 +69,7 @@ public class Command<E> implements Serializable {
      * @return the object associated with the command
      */
     public Object getObject() throws IOException, ClassNotFoundException {
-        return Interpreter.toObject(object);
+        return object;
     }
 
     /**
@@ -78,7 +78,7 @@ public class Command<E> implements Serializable {
      * @param object the new object type of the command
      */
     public void setObject(Object object) throws IOException {
-        this.object = Interpreter.toByteArray(object);
+        this.object = object;
     }
 
     /**

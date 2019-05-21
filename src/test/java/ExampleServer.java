@@ -31,14 +31,27 @@ public class ExampleServer extends JServer {
     }
 
     @Override
-    protected void runCustomCommand(Command command, String sentFrom) throws IOException, ClientNotFoundException {
+    protected void runCustomCommand(Command command, String sentFrom) {
         if (command.equals(score)) {
-            score.setObject(8);
-            Data scoreMsg = new Data(score.getObject());
+            try {
+                score.setObject(8);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Data scoreMsg = null;
+            try {
+                scoreMsg = new Data(score.getObject());
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             try {
                 sendToSpecificClients(scoreMsg, Collections.singletonList(sentFrom));
             } catch (ClientNotFoundException e) {
-                broadcast(new Data("Client not found"));
+                try {
+                    broadcast(new Data("Client not found"));
+                } catch (ClientNotFoundException | IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         }
     }
